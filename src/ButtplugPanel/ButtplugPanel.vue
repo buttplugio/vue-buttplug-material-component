@@ -34,7 +34,9 @@
   </div>
 </template>
 
-<script lang="ts" src="./ButtplugPanel.ts">
+<script lang="ts">
+ import { ButtplugPanelType } from "./ButtplugPanel"
+ export default ButtplugPanelType
 </script>
 
 <style lang="css">

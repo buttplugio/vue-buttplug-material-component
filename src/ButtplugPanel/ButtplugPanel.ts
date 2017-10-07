@@ -14,7 +14,7 @@ import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManage
     ButtplugLogManagerComponent,
   },
 })
-export default class ButtplugPanel extends Vue {
+export class ButtplugPanelType extends Vue {
   private logMessages: string[] = [];
   private devices: Device[] = [];
   private selectedDevices: Device[] = [];

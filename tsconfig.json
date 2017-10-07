@@ -11,9 +11,11 @@
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
-    "outDir": "./dist/build"
+    "outDir": "./dist/",
+    "declaration": true
   },
   "include": [
+    "src/*.ts",
     "src/**/*.ts",
     "tests/**/*.ts"
   ]

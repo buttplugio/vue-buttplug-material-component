@@ -13,11 +13,38 @@ module.exports = {
     chunks: false,
     chunkModules: false
   },
-  entry: './src/main.ts',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'index.js',
+    libraryTarget: 'commonjs'
+  },
+  externals: {
+    'vue': {
+      umd: 'Vue',
+      global: 'Vue',
+      root: 'Vue',
+      commonjs2: 'vue',
+      commonjs: 'vue',
+      amd: 'vue'
+    },
+    'vue-material': {
+      umd: 'VueMaterial',
+      global: 'VueMaterial',
+      root: 'VueMaterial',
+      commonjs2: 'vue-material',
+      commonjs: 'vue-material',
+      amd: 'vue-material'
+    },
+    'buttplug': {
+      umd: 'Buttplug',
+      global: 'Buttplug',
+      root: 'Buttplug',
+      commonjs2: 'buttplug',
+      commonjs: 'buttplug',
+      amd: 'buttplug'
+    }
   },
   module: {
     rules: [
@@ -71,7 +98,10 @@ module.exports = {
   },
   devtool: '#eval-source-map',
   plugins: [
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new webpack.ProvidePlugin({
+      Vue: ['vue/dist/vue.esm.js', 'default']
+    })
   ],
   node: {
     fs: 'empty'
