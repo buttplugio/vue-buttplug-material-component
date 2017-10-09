@@ -12,7 +12,9 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "outDir": "./dist/",
-    "declaration": true
+    "declaration": true,
+    "declarationDir": "types",
+    "importHelpers": true
   },
   "include": [
     "src/*.ts",

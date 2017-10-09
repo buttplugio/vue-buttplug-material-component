@@ -4,20 +4,25 @@
   "description": "Vue.js component for Buttplug Client/Server interaction, with vue-material theming",
   "author": "Kyle Machulis <kyle@machul.is>",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "yarn build:main && cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
     "build:main": "tsc -p tsconfig.json",
     "pretest": "yarn build:main"
   },
   "dependencies": {
-    "buttplug": "^0.1.1",
-    "vue": "^2.3.3",
-    "vue-material": "^0.7.4"
+  },
+  "peerDependencies": {
+    "buttplug": "^0.x",
+    "vue": "^2.x",
+    "vue-material": "^0.x"
   },
   "devDependencies": {
+    "buttplug": "^0.1.1",
+    "vue": "^2.3.3",
+    "vue-material": "^0.7.4",
     "@types/node": "^8.0.33",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
