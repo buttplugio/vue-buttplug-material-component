@@ -1,7 +1,8 @@
-import { ButtplugClient, ButtplugWebsocketClient, ButtplugBrowserClient, ButtplugMessage,
+import { ButtplugClient, ButtplugMessage,
          ButtplugDeviceMessage, Device, Log, StopDeviceCmd } from "buttplug";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
+import { ButtplugMessageBus } from "../ButtplugMessageBus";
 import ButtplugConnectionManagerComponent from "../ButtplugConnectionManager/ButtplugConnectionManager.vue";
 import ButtplugStartConnectEvent from "../ButtplugConnectionManager/ButtplugStartConnectEvent";
 import ButtplugDeviceManagerComponent from "../ButtplugDeviceManager/ButtplugDeviceManager.vue";
@@ -19,38 +20,41 @@ export class ButtplugPanelType extends Vue {
   private devices: Device[] = [];
   private selectedDevices: Device[] = [];
   private isConnected: boolean = false;
-
   private buttplugClient: ButtplugClient | null = null;
+
+  public mounted() {
+    ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
+  }
 
   public async StopAllDevices() {
     if (this.buttplugClient === null) {
-      return;
+      throw new Error("Not connected to a Buttplug Server.");
     }
     await this.buttplugClient.StopAllDevices();
   }
 
   public async SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage) {
     if (this.buttplugClient === null) {
-      return;
+      throw new Error("Not connected to a Buttplug Server.");
     }
     if (!this.deviceSelected(aDevice)) {
-      return;
+      throw new Error("Tried to send message to device that is not selected.");
     }
     if (aDevice.AllowedMessages.indexOf(aMsg.getType()) === -1) {
-      return;
+      throw new Error("Device does not take that type of message.");
     }
     await this.buttplugClient.SendDeviceMessage(aDevice, aMsg);
   }
 
   public async ConnectWebsocket(aConnectObj: ButtplugStartConnectEvent) {
-    const buttplugClient = new ButtplugWebsocketClient(aConnectObj.clientName);
-    await buttplugClient.Connect(aConnectObj.address);
+    const buttplugClient = new ButtplugClient(aConnectObj.clientName);
+    await buttplugClient.ConnectWebsocket(aConnectObj.address);
     await this.InitializeConnection(buttplugClient);
   }
 
   public async ConnectLocal(aConnectObj: ButtplugStartConnectEvent) {
-    const buttplugClient = new ButtplugBrowserClient(aConnectObj.clientName);
-    await buttplugClient.Connect(aConnectObj.address);
+    const buttplugClient = new ButtplugClient(aConnectObj.clientName);
+    await buttplugClient.ConnectLocal();
     await this.InitializeConnection(buttplugClient);
   }
 
@@ -69,21 +73,21 @@ export class ButtplugPanelType extends Vue {
 
   public async SetLogLevel(logLevel: string) {
     if (this.buttplugClient === null) {
-      return;
+      throw new Error("Not connected to a Buttplug Server!");
     }
     await this.buttplugClient.RequestLog(logLevel);
   }
 
   public async StartScanning() {
     if (this.buttplugClient === null) {
-      return;
+      throw new Error("Not connected to a Buttplug Server!");
     }
     await this.buttplugClient.StartScanning();
   }
 
   public async StopScanning() {
     if (this.buttplugClient === null) {
-      return;
+      throw new Error("Not connected to a Buttplug Server!");
     }
     await this.buttplugClient.StopScanning();
   }

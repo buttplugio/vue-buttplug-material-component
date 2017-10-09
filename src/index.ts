@@ -3,12 +3,15 @@ const VueMaterial = require("vue-material");
 
 import ButtplugPanelType from "./ButtplugPanel/ButtplugPanel";
 import ButtplugPanelComponent from "./ButtplugPanel/ButtplugPanel.vue";
+import { SendMessageToDevice } from "./ButtplugMessageBus";
 Vue.use(VueMaterial);
 
 export { ButtplugPanelComponent,
-         ButtplugPanelType };
+         ButtplugPanelType,
+         SendMessageToDevice };
 
 export function install(vue: typeof Vue, options = { prefix: "buttplug" }) {
   const { prefix } = options;
   vue.component(`${prefix}-panel`, ButtplugPanelComponent);
+  (vue as any).SendButtplugDeviceMessage = SendMessageToDevice;
 }
