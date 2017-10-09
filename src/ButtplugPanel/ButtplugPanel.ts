@@ -24,6 +24,7 @@ export class ButtplugPanelType extends Vue {
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
+    ButtplugMessageBus.$on("stopalldevices", this.StopAllDevices);
   }
 
   public async StopAllDevices() {
