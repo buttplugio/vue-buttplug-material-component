@@ -3,7 +3,7 @@
     <textarea ref="logArea">{{ logMessages.join("\n") }}</textarea>
     <br/>
     <md-select v-model="logLevel" @change="LogLevelChange">
-      <md-option value="Off">Off</md-option>
+      <md-option value="Off" selected>Off</md-option>
       <md-option value="Fatal">Fatal</md-option>
       <md-option value="Error">Error</md-option>
       <md-option value="Warn">Warn</md-option>

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Component, Model, Prop, Watch } from "vue-property-decorator";
 
-@Component
+@Component({})
 export default class ButtplugLogManager extends Vue {
   @Prop()
   private logMessages: string[];
@@ -11,6 +11,8 @@ export default class ButtplugLogManager extends Vue {
 
   @Model()
   private logLevel: string = "Off";
+
+  private lastLogLevel: string = this.logLevel;
 
   @Watch("isConnected")
   private onConnectionChange() {
@@ -23,6 +25,10 @@ export default class ButtplugLogManager extends Vue {
   }
 
   private LogLevelChange() {
+    if (this.logLevel === this.lastLogLevel) {
+      return;
+    }
     this.$emit("loglevel", this.logLevel);
+    this.lastLogLevel = this.logLevel;
   }
 }
