@@ -8,6 +8,9 @@ export default class ButtplugDeviceManager extends Vue {
   private devices: Device[];
 
   @Prop()
+  private isServerScanning: boolean;
+
+  @Prop()
   private isConnected: boolean;
 
   @Model()
@@ -16,6 +19,14 @@ export default class ButtplugDeviceManager extends Vue {
   private selectedDevices: Device[] = [];
   private isScanning: boolean = false;
   private boxChecked: boolean = false;
+
+  @Watch("isServerScanning")
+  private onServerScanningChange() {
+    if (!this.isServerScanning) {
+      this.isScanning = false;
+      this.scanningText = "Start Scanning";
+    }
+  }
 
   @Watch("isConnected")
   private onConnectionChange() {
