@@ -21,6 +21,7 @@ export class ButtplugPanelType extends Vue {
   private selectedDevices: Device[] = [];
   private isConnected: boolean = false;
   private buttplugClient: ButtplugClient | null = null;
+  private isServerScanning: boolean = false;
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
@@ -84,6 +85,7 @@ export class ButtplugPanelType extends Vue {
       throw new Error("Not connected to a Buttplug Server!");
     }
     await this.buttplugClient.StartScanning();
+    this.isServerScanning = true;
   }
 
   public async StopScanning() {
@@ -91,6 +93,7 @@ export class ButtplugPanelType extends Vue {
       throw new Error("Not connected to a Buttplug Server!");
     }
     await this.buttplugClient.StopScanning();
+    this.isServerScanning = false;
   }
 
   private deviceSelected(aDevice: Device): boolean {
@@ -102,6 +105,7 @@ export class ButtplugPanelType extends Vue {
     aButtplugClient.addListener("log", this.AddLogMessage);
     aButtplugClient.addListener("deviceadded", this.AddDevice);
     aButtplugClient.addListener("deviceremoved", this.RemoveDevice);
+    aButtplugClient.addListener("scanningfinished", this.ScanningFinished);
     this.isConnected = true;
     const devices = await aButtplugClient.RequestDeviceList();
     this.buttplugClient = aButtplugClient;
@@ -148,5 +152,9 @@ export class ButtplugPanelType extends Vue {
       this.$emit("deviceconnected", aDevice);
     });
     this.selectedDevices = newSelectedDevices;
+  }
+
+  private ScanningFinished() {
+    this.isServerScanning = false;
   }
 }
