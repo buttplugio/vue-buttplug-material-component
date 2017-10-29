@@ -7,6 +7,7 @@ export declare class ButtplugPanelType extends Vue {
     private selectedDevices;
     private isConnected;
     private buttplugClient;
+    private isServerScanning;
     mounted(): void;
     StopAllDevices(): Promise<void>;
     SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage): Promise<void>;
@@ -23,4 +24,5 @@ export declare class ButtplugPanelType extends Vue {
     private AddDevice(device);
     private RemoveDevice(device);
     private OnSelectedDevicesChanged(aDeviceList);
+    private ScanningFinished();
 }
