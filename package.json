@@ -1,6 +1,6 @@
 {
   "name": "vue-buttplug-material-component",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vue.js component for Buttplug Client/Server interaction, with vue-material theming",
   "author": "Kyle Machulis <kyle@machul.is>",
   "main": "./dist/index.js",
@@ -13,12 +13,12 @@
     "pretest": "yarn build:main"
   },
   "peerDependencies": {
-    "buttplug": ">=0.2.0",
+    "buttplug": ">=0.2.2",
     "vue": "^2.x",
     "vue-material": ">=0.7.4"
   },
   "devDependencies": {
-    "buttplug": ">=0.2.0",
+    "buttplug": ">=0.2.2",
     "vue": "^2.4.4",
     "vue-material": "^0.7.4",
     "@types/node": "^8.0.33",
