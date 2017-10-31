@@ -14,8 +14,12 @@
     <md-button v-if="!isConnected"
                id="ConnectLocalButton"
                class="md-raised md-primary"
+               :disabled="!this.HasBluetooth"
                @click="ConnectLocal">Connect Local</md-button>
-    <md-button v-if="isConnected" ref="DisconnectButton" class="md-raised md-primary" @click="Disconnect">Disconnect</md-button>
+    <md-button v-if="isConnected"
+               id="DisconnectButton"
+               class="md-raised md-primary"
+               @click="Disconnect">Disconnect</md-button>
   </div>
 </template>
 

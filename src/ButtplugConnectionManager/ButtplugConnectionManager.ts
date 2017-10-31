@@ -8,21 +8,19 @@ export default class ButtplugConnectionManager extends Vue {
   private clientName: string = "Buttplug Playground";
   private address: string = "ws://localhost:12345/buttplug";
 
-  public HasBluetooth() {
-    return (navigator !== undefined &&
-            "bluetooth" in navigator);
-  }
-
   public mounted() {
     // This can easily be spoofed, but we're doing this for conveinence more
     // than security here.
     if (location.protocol === "https:") {
       this.address = "wss://localhost:12345/buttplug";
     }
-    if (!this.HasBluetooth()) {
-      document.getElementById("ConnectLocalButton")!.setAttribute("disabled", "true");
-    }
   }
+
+  private get HasBluetooth() {
+    return (navigator !== undefined &&
+            "bluetooth" in navigator);
+  }
+
   private ConnectWebsocket() {
     this.$emit("connectwebsocket", {address: this.address,
                                     clientName: this.clientName});
