@@ -39,14 +39,14 @@ export default class ButtplugDeviceManager extends Vue {
 
   private ScanningClicked(ev: Event) {
     if (!this.isScanning) {
-      this.$emit("startScanning");
       this.isScanning = true;
       this.scanningText = "Stop Scanning";
+      this.$emit("startScanning");
       return;
     }
-    this.$emit("stopScanning");
     this.isScanning = false;
     this.scanningText = "Start Scanning";
+    this.$emit("stopScanning");
   }
 
   private onCheckboxChange(aChecked: boolean, aDeviceId: number) {

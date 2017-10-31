@@ -1,5 +1,5 @@
 import { ButtplugClient, ButtplugMessage,
-         ButtplugDeviceMessage, Device, Log, StopDeviceCmd } from "buttplug";
+         ButtplugDeviceMessage, Device, Log, StopDeviceCmd, Error as ErrorMsg } from "buttplug";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
@@ -22,6 +22,7 @@ export class ButtplugPanelType extends Vue {
   private isConnected: boolean = false;
   private buttplugClient: ButtplugClient | null = null;
   private isServerScanning: boolean = false;
+  private lastErrorMessage: string | null = null;
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
@@ -84,16 +85,21 @@ export class ButtplugPanelType extends Vue {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server!");
     }
-    await this.buttplugClient.StartScanning();
+    this.lastErrorMessage = null;
     this.isServerScanning = true;
+    try {
+      await this.buttplugClient.StartScanning();
+    } catch (e) {
+      this.lastErrorMessage = (e as ErrorMsg).ErrorMessage;
+    }
   }
 
   public async StopScanning() {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server!");
     }
-    await this.buttplugClient.StopScanning();
     this.isServerScanning = false;
+    await this.buttplugClient.StopScanning();
   }
 
   private deviceSelected(aDevice: Device): boolean {
