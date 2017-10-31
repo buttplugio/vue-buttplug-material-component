@@ -50,18 +50,33 @@ export class ButtplugPanelType extends Vue {
   }
 
   public async ConnectWebsocket(aConnectObj: ButtplugStartConnectEvent) {
+    this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
-    await buttplugClient.ConnectWebsocket(aConnectObj.address);
+    try {
+      await buttplugClient.ConnectWebsocket(aConnectObj.address);
+    } catch (e) {
+      // If we get an error thrown while trying to connect, we won't get much
+      // information on why due to browser security contraints. Just explain
+      // every possible error that could happen and hope the user figures it
+      // out.
+      this.setError("Websocket connection failed. This could be due to the server address being wrong, " +
+                    "the server not being available, or if this is being hosted from an https site, " +
+                    "the SSL certificate not being accepted by the browser. Check your Buttplug Server " +
+                    "software to see if there are any errors listed.");
+      return;
+    }
     await this.InitializeConnection(buttplugClient);
   }
 
   public async ConnectLocal(aConnectObj: ButtplugStartConnectEvent) {
+    this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     await buttplugClient.ConnectLocal();
     await this.InitializeConnection(buttplugClient);
   }
 
   public Disconnect() {
+    this.clearError();
     this.isConnected = false;
     this.devices = [];
     this.selectedDevices = [];
@@ -100,6 +115,14 @@ export class ButtplugPanelType extends Vue {
     }
     this.isServerScanning = false;
     await this.buttplugClient.StopScanning();
+  }
+
+  private setError(aError: string) {
+    this.lastErrorMessage = aError;
+  }
+
+  private clearError() {
+    this.lastErrorMessage = null;
   }
 
   private deviceSelected(aDevice: Device): boolean {
