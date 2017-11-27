@@ -1,3 +1,9 @@
+# Version 0.0.4 - 2017/11/26
+
+- Show error if websocket connection fails
+- Fix disconnect button for websocket connections
+- Notify user if bluetooth isn't available
+
 # Version 0.0.3 - 2017/10/28
 
 - Update Start/Stop Scanning Button state on scanningfinished event/message
