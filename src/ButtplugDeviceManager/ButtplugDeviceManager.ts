@@ -13,7 +13,6 @@ export default class ButtplugDeviceManager extends Vue {
   @Prop()
   private isConnected: boolean;
 
-  @Model()
   private scanningText: string = "Start Scanning";
 
   private selectedDevices: Device[] = [];

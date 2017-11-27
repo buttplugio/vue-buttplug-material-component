@@ -11,7 +11,6 @@
     </md-list>
     <md-button
       @click="ScanningClicked"
-      v-model="scanningText"
       class="md-raised md-primary">{{ scanningText }}</md-button>
     <span v-show="isScanning">
       <md-spinner :md-size="40" md-indeterminate />
