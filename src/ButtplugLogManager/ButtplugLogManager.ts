@@ -10,7 +10,7 @@ export default class ButtplugLogManager extends Vue {
   private isConnected: boolean;
 
   @Model()
-  private logLevel: string = "Off";
+  private logLevel: string;
 
   private lastLogLevel: string = this.logLevel;
 
