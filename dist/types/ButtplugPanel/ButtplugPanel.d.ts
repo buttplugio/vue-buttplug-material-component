@@ -8,6 +8,7 @@ export declare class ButtplugPanelType extends Vue {
     private isConnected;
     private buttplugClient;
     private isServerScanning;
+    private lastErrorMessage;
     mounted(): void;
     StopAllDevices(): Promise<void>;
     SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage): Promise<void>;
@@ -17,6 +18,8 @@ export declare class ButtplugPanelType extends Vue {
     SetLogLevel(logLevel: string): Promise<void>;
     StartScanning(): Promise<void>;
     StopScanning(): Promise<void>;
+    private setError(aError);
+    private clearError();
     private deviceSelected(aDevice);
     private InitializeConnection(aButtplugClient);
     private AddLogMessage(logMessage);
