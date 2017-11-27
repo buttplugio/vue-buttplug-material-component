@@ -1,5 +1,5 @@
 import { ButtplugClient, ButtplugMessage,
-         ButtplugDeviceMessage, Device, Log, StopDeviceCmd } from "buttplug";
+         ButtplugDeviceMessage, Device, Log, StopDeviceCmd, Error as ErrorMsg } from "buttplug";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
@@ -22,6 +22,7 @@ export class ButtplugPanelType extends Vue {
   private isConnected: boolean = false;
   private buttplugClient: ButtplugClient | null = null;
   private isServerScanning: boolean = false;
+  private lastErrorMessage: string | null = null;
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
@@ -49,18 +50,33 @@ export class ButtplugPanelType extends Vue {
   }
 
   public async ConnectWebsocket(aConnectObj: ButtplugStartConnectEvent) {
+    this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
-    await buttplugClient.ConnectWebsocket(aConnectObj.address);
+    try {
+      await buttplugClient.ConnectWebsocket(aConnectObj.address);
+    } catch (e) {
+      // If we get an error thrown while trying to connect, we won't get much
+      // information on why due to browser security contraints. Just explain
+      // every possible error that could happen and hope the user figures it
+      // out.
+      this.setError("Websocket connection failed. This could be due to the server address being wrong, " +
+                    "the server not being available, or if this is being hosted from an https site, " +
+                    "the SSL certificate not being accepted by the browser. Check your Buttplug Server " +
+                    "software to see if there are any errors listed.");
+      return;
+    }
     await this.InitializeConnection(buttplugClient);
   }
 
   public async ConnectLocal(aConnectObj: ButtplugStartConnectEvent) {
+    this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     await buttplugClient.ConnectLocal();
     await this.InitializeConnection(buttplugClient);
   }
 
   public Disconnect() {
+    this.clearError();
     this.isConnected = false;
     this.devices = [];
     this.selectedDevices = [];
@@ -84,16 +100,30 @@ export class ButtplugPanelType extends Vue {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server!");
     }
-    await this.buttplugClient.StartScanning();
+    this.lastErrorMessage = null;
     this.isServerScanning = true;
+    try {
+      await this.buttplugClient.StartScanning();
+    } catch (e) {
+      this.lastErrorMessage = (e as ErrorMsg).ErrorMessage;
+    }
   }
 
   public async StopScanning() {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server!");
     }
+    this.isServerScanning = false;
     await this.buttplugClient.StopScanning();
     this.isServerScanning = false;
+  }
+
+  private setError(aError: string) {
+    this.lastErrorMessage = aError;
+  }
+
+  private clearError() {
+    this.lastErrorMessage = null;
   }
 
   private deviceSelected(aDevice: Device): boolean {

@@ -10,6 +10,14 @@
           @connectlocal="ConnectLocal"
           @disconnect="Disconnect"/>
       </md-list-item>
+      <div v-show="lastErrorMessage">
+        <md-subheader>Error</md-subheader>
+        <md-list-item class="lower-divider">
+          <div class="error-message">
+            {{ this.lastErrorMessage }}
+          </div>
+        </md-list-item>
+      </div>
       <div v-show="isConnected">
       <md-subheader>Devices</md-subheader>
       <md-list-item class="lower-divider">
@@ -49,5 +57,11 @@
  .lower-divider {
    padding-bottom: 5px;
    border-bottom: 1px #bbb solid;
+ }
+
+ .error-message {
+   color: #C00;
+   font-size: 12px;
+   padding: 5px;
  }
 </style>
