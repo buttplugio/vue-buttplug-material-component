@@ -43,7 +43,7 @@ export class ButtplugPanelType extends Vue {
     if (!this.deviceSelected(aDevice)) {
       throw new Error("Tried to send message to device that is not selected.");
     }
-    if (aDevice.AllowedMessages.indexOf(aMsg.getType()) === -1) {
+    if (aDevice.AllowedMessages.indexOf(aMsg.Type) === -1) {
       throw new Error("Device does not take that type of message.");
     }
     await this.buttplugClient.SendDeviceMessage(aDevice, aMsg);
@@ -137,7 +137,6 @@ export class ButtplugPanelType extends Vue {
     aButtplugClient.addListener("deviceremoved", this.RemoveDevice);
     aButtplugClient.addListener("scanningfinished", this.ScanningFinished);
     this.isConnected = true;
-    const devices = await aButtplugClient.RequestDeviceList();
     this.buttplugClient = aButtplugClient;
   }
 

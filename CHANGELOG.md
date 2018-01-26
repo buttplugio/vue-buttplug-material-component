@@ -1,3 +1,8 @@
+# Version 0.1.0 - 2017/01/25
+
+- Update dependencies
+- Update Buttplug dependency to 0.5.x (rolling minor version due to change)
+
 # Version 0.0.5 - 2017/11/26
 
 - Fix prop/model issues that popped up on dependency changes
