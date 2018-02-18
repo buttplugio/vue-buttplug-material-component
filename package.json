@@ -34,7 +34,7 @@
     "uglify-es": "^3.3.8",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
-    "vue-loader": "^13.7.0",
+    "vue-loader": "^14.1.1",
     "vue-property-decorator": "^6.0.0",
     "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
