@@ -134,7 +134,7 @@ export class ButtplugPanelType extends Vue {
   }
 
   private InitializeClient(aButtplugClient: ButtplugClient) {
-    aButtplugClient.addListener("close", this.Disconnect);
+    aButtplugClient.addListener("disconnect", this.Disconnect);
     aButtplugClient.addListener("log", this.AddLogMessage);
     aButtplugClient.addListener("deviceadded", this.AddDevice);
     aButtplugClient.addListener("deviceremoved", this.RemoveDevice);
