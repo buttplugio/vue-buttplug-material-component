@@ -21,7 +21,7 @@ export declare class ButtplugPanelType extends Vue {
     private setError(aError);
     private clearError();
     private deviceSelected(aDevice);
-    private InitializeConnection(aButtplugClient);
+    private InitializeClient(aButtplugClient);
     private AddLogMessage(logMessage);
     private DeviceAlreadyAdded(device);
     private AddDevice(device);
