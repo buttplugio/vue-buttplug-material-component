@@ -53,7 +53,10 @@ export class ButtplugPanelType extends Vue {
     this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     try {
+      this.InitializeClient(buttplugClient);
       await buttplugClient.ConnectWebsocket(aConnectObj.address);
+      this.isConnected = true;
+      this.buttplugClient = buttplugClient;
     } catch (e) {
       // If we get an error thrown while trying to connect, we won't get much
       // information on why due to browser security contraints. Just explain
@@ -65,14 +68,15 @@ export class ButtplugPanelType extends Vue {
                     "software to see if there are any errors listed.");
       return;
     }
-    await this.InitializeConnection(buttplugClient);
   }
 
   public async ConnectLocal(aConnectObj: ButtplugStartConnectEvent) {
     this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
+    await this.InitializeClient(buttplugClient);
     await buttplugClient.ConnectLocal();
-    await this.InitializeConnection(buttplugClient);
+    this.isConnected = true;
+    this.buttplugClient = buttplugClient;
   }
 
   public Disconnect() {
@@ -129,14 +133,12 @@ export class ButtplugPanelType extends Vue {
     return this.selectedDevices.find((device) => aDevice.Index === device.Index) !== undefined;
   }
 
-  private async InitializeConnection(aButtplugClient: ButtplugClient) {
+  private InitializeClient(aButtplugClient: ButtplugClient) {
     aButtplugClient.addListener("close", this.Disconnect);
     aButtplugClient.addListener("log", this.AddLogMessage);
     aButtplugClient.addListener("deviceadded", this.AddDevice);
     aButtplugClient.addListener("deviceremoved", this.RemoveDevice);
     aButtplugClient.addListener("scanningfinished", this.ScanningFinished);
-    this.isConnected = true;
-    this.buttplugClient = aButtplugClient;
   }
 
   private AddLogMessage(logMessage: Log) {
