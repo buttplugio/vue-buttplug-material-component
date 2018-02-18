@@ -1,3 +1,8 @@
+# Version 0.1.1 - 2017/02/17
+
+- Fix bug with devices already connected to server not showing up on websocket reconnect
+- Fix bug with websocket server disconnect not updating GUI
+
 # Version 0.1.0 - 2017/01/25
 
 - Update dependencies
