@@ -41,5 +41,8 @@
     "webpack-bundle-analyzer": "^2.9.2",
     "webpack-dev-server": "^2.11.1"
   },
-  "pre-push": []
+  "pre-push": [],
+  "dependencies": {
+    "vue-cookie": "^1.1.4"
+  }
 }
