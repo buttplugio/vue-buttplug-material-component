@@ -6,7 +6,7 @@
     </md-input-container>
     <md-input-container v-if="!isConnected">
       <label id="form-label">Server Address</label>
-      <md-input class="form-text md-block" v-model="address"/>
+      <md-input class="form-text md-block" v-model="address" @change="CookieAddress"/>
     </md-input-container>
     <md-button v-if="!isConnected"
                class="md-raised md-primary"

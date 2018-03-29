@@ -1,4 +1,6 @@
 import Vue from "vue";
+import VueCookies from "vue-cookie";
+Vue.use(VueCookies);
 import { Component, Prop } from "vue-property-decorator";
 
 @Component
@@ -9,9 +11,11 @@ export default class ButtplugConnectionManager extends Vue {
   private address: string = "ws://localhost:12345/buttplug";
 
   public mounted() {
-    // This can easily be spoofed, but we're doing this for conveinence more
-    // than security here.
-    if (location.protocol === "https:") {
+    if (VueCookies.get("address")) {
+        this.address = VueCookies.get("address");
+    } else if (location.protocol === "https:") {
+      // This can easily be spoofed, but we're doing this for conveinence more
+      // than security here.
       this.address = "wss://localhost:12345/buttplug";
     }
   }
@@ -19,6 +23,10 @@ export default class ButtplugConnectionManager extends Vue {
   private get HasBluetooth() {
     return (navigator !== undefined &&
             "bluetooth" in navigator);
+  }
+
+  private CookieAddress(address: string) {
+      VueCookies.set("address", address, { expires: "1Y" });
   }
 
   private ConnectWebsocket() {
