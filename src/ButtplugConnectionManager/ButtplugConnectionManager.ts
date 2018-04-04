@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueCookies from "vue-cookie";
+const VueCookies = require("vue-cookie");
 Vue.use(VueCookies);
 import { Component, Prop } from "vue-property-decorator";
 
