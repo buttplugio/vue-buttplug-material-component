@@ -1,0 +1,23 @@
+{
+  "compilerOptions" : {
+    "lib": ["es5", "ES2015", "ES2015.promise", "dom", "es6"],
+    "target": "es6",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "outDir": "./dist/",
+    "declaration": true,
+    "declarationDir": "types",
+    "importHelpers": true
+  },
+  "include": [
+    "example/*.ts",
+    "example/**/*.ts"
+  ]
+}
