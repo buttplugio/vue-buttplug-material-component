@@ -12,7 +12,7 @@ export default class ButtplugConnectionManager extends Vue {
 
   public mounted() {
     if (VueCookies.get("address")) {
-        this.address = VueCookies.get("address");
+      this.address = VueCookies.get("address");
     } else if (location.protocol === "https:") {
       // This can easily be spoofed, but we're doing this for conveinence more
       // than security here.
@@ -26,7 +26,7 @@ export default class ButtplugConnectionManager extends Vue {
   }
 
   private CookieAddress(address: string) {
-      VueCookies.set("address", address, { expires: "1Y" });
+    VueCookies.set("address", address, { expires: "1Y" });
   }
 
   private ConnectWebsocket() {
