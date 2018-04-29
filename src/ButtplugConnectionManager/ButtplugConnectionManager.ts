@@ -7,7 +7,7 @@ import { Component, Prop } from "vue-property-decorator";
 export default class ButtplugConnectionManager extends Vue {
   @Prop()
   private isConnected!: boolean;
-  private clientName: string = "Buttplug Playground";
+  private clientName: string = "Generic Buttplug Client";
   private address: string = "ws://localhost:12345/buttplug";
 
   public mounted() {
