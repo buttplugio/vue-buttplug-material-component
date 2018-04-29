@@ -5,16 +5,17 @@ import { Component, Model, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class ButtplugDeviceManager extends Vue {
   @Prop()
-  private devices: Device[];
+  private devices!: Device[];
 
   @Prop()
-  private isServerScanning: boolean;
+  private isServerScanning!: boolean;
 
   @Prop()
-  private isConnected: boolean;
+  private isConnected!: boolean;
 
   private scanningText: string = "Start Scanning";
 
+  private selectedDeviceIds: number[] = [];
   private selectedDevices: Device[] = [];
   private isScanning: boolean = false;
   private boxChecked: boolean = false;
@@ -54,12 +55,16 @@ export default class ButtplugDeviceManager extends Vue {
         if (device.Index === aDeviceId &&
             this.selectedDevices.indexOf(device) === -1) {
           this.selectedDevices.push(device);
+          this.selectedDeviceIds.push(aDeviceId);
           break;
         }
       }
     } else {
       this.selectedDevices = this.selectedDevices.filter((d) => {
         return d.Index !== aDeviceId;
+      });
+      this.selectedDeviceIds = this.selectedDeviceIds.filter((d) => {
+        return d !== aDeviceId;
       });
     }
     this.$emit("selectedDevicesChanged", this.selectedDevices);

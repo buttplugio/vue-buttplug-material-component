@@ -1,10 +1,11 @@
 import Vue from "vue";
-const VueMaterial = require("vue-material");
+import Vuetify from "vuetify";
 
-import ButtplugPanelType from "./ButtplugPanel/ButtplugPanel";
+import { ButtplugPanelType } from "./ButtplugPanel/ButtplugPanel";
 import ButtplugPanelComponent from "./ButtplugPanel/ButtplugPanel.vue";
 import { SendDeviceMessage, StopAllDevices } from "./ButtplugMessageBus";
-Vue.use(VueMaterial);
+
+Vue.use(Vuetify);
 
 export { ButtplugPanelComponent,
          ButtplugPanelType };
