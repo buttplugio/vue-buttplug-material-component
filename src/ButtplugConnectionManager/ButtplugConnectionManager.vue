@@ -1,26 +1,35 @@
 <template>
-  <div id="buttplug-connection-manager" class="buttplug-sidebar">
-    <md-input-container v-if="!isConnected">
-      <label id="form-label">Client Name</label>
-      <md-input class="form-text md-block" v-model="clientName" placeholder="Syncydink Video Client"/>
-    </md-input-container>
-    <md-input-container v-if="!isConnected">
-      <label id="form-label">Server Address</label>
-      <md-input class="form-text md-block" v-model="address"/>
-    </md-input-container>
-    <md-button v-if="!isConnected"
-               class="md-raised md-primary"
-               @click="ConnectWebsocket">Connect Websocket</md-button>
-    <md-button v-if="!isConnected"
-               id="ConnectLocalButton"
-               class="md-raised md-primary"
-               :disabled="!this.HasBluetooth"
-               @click="ConnectLocal">Connect Local</md-button>
-    <md-button v-if="isConnected"
-               id="DisconnectButton"
-               class="md-raised md-primary"
-               @click="Disconnect">Disconnect</md-button>
-  </div>
+  <v-layout column id="buttplug-connection-manager" class="buttplug-sidebar">
+    <v-subheader>Connection</v-subheader>
+    <v-flex v-if="!isConnected">
+      <v-text-field
+        label="Client Name"
+        class="form-text"
+        v-model="clientName"
+        placeholder="Generic Buttplug Client">
+      </v-text-field>
+    </v-flex>
+    <v-flex row v-if="!isConnected">
+      <v-text-field
+        label="Server Address"
+        class="form-text"
+        v-model="address"
+        @change="CookieAddress">
+      </v-text-field>
+    </v-flex>
+    <v-btn
+      v-if="!isConnected"
+      @click="ConnectWebsocket">Connect Websocket</v-btn>
+    <v-btn
+      v-if="!isConnected"
+      id="ConnectLocalButton"
+      :disabled="!this.HasBluetooth"
+      @click="ConnectLocal">Connect Local</v-btn>
+    <v-btn
+      v-if="isConnected"
+      id="DisconnectButton"
+      @click="Disconnect">Disconnect</v-btn>
+  </v-layout>
 </template>
 
 <script lang="ts" src="./ButtplugConnectionManager.ts">

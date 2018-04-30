@@ -1,6 +1,8 @@
 'use strict';
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -13,48 +15,21 @@ module.exports = {
     chunks: false,
     chunkModules: false
   },
-  entry: './src/index.ts',
+  entry: './example/main.ts',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'index.js',
-    libraryTarget: 'umd'
-  },
-  externals: {
-    'vue': {
-      umd: 'Vue',
-      global: 'Vue',
-      root: 'Vue',
-      commonjs2: 'vue',
-      commonjs: 'vue',
-      amd: 'vue'
-    },
-    'vue-material': {
-      umd: 'VueMaterial',
-      global: 'VueMaterial',
-      root: 'VueMaterial',
-      commonjs2: 'vue-material',
-      commonjs: 'vue-material',
-      amd: 'vue-material'
-    },
-    'buttplug': {
-      umd: 'Buttplug',
-      global: 'Buttplug',
-      root: 'Buttplug',
-      commonjs2: 'buttplug',
-      commonjs: 'buttplug',
-      amd: 'buttplug'
-    }
+    filename: 'example.js',
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules|vue\/src|tests/,
-        loader: 'ts-loader',
-        options: {
-          appendTsSuffixTo: [/\.vue$/]
-        }
+        use: [{loader: 'ts-loader',
+               options: {
+                 appendTsSuffixTo: [/\.vue$/]
+               }}],
       },
       {
         test: /\.vue$/,
@@ -75,21 +50,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'css-loader'
-      },
-      {
-        test: /\.less$/,
-        loader: 'less-loader'
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js", ".vue"],
-    alias: {
-      'vue$': path.resolve('./node_modules/vue/dist/vue.esm.js'),
-      'vue-material$': path.resolve('./node_modules/vue-material/dist/vue-material.js'),
-      'buttplug$': path.resolve('./node_modules/buttplug/dist/main/src/index.js')
-    }
+    extensions: [".ts", ".js", ".vue"]
   },
   devServer: {
     historyApiFallback: true,
@@ -101,9 +67,10 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.ProvidePlugin({
-      Vue: ['vue/dist/vue.esm.js', 'default']
-    })
+    new ForkTsCheckerWebpackPlugin({
+      tslint: true,
+    }),
+    new VueLoaderPlugin()
   ],
   node: {
     fs: 'empty'
@@ -124,12 +91,12 @@ if (process.env.NODE_ENV === 'production') {
       sourceMap: true,
       uglifyOptions: {
         mangle: {
-          keep_classnames: true,
-          keep_fnames: true
+          keep_fnames: true,
+          keep_classnames: true
         },
         compress: {
           keep_fnames: true,
-          warnings: false
+          keep_classnames: true
         }
       }
     }),

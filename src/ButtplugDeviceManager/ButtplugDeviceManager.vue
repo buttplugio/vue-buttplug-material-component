@@ -1,21 +1,22 @@
 <template>
-  <div id="buttplug-device-manager">
-    <md-list>
-      <md-list-item
+  <v-layout column>
+    <v-subheader>Devices</v-subheader>
+    <v-flex>
+      <v-checkbox
         v-for="device in devices"
         :key="device.Id"
-        class="buttplug-device-checkbox">
-        <md-checkbox
-          @change="onCheckboxChange($event, device.Index)">{{ device.Index + ": " + device.Name }}</md-checkbox>
-      </md-list-item>
-    </md-list>
-    <md-button
-      @click="ScanningClicked"
-      class="md-raised md-primary">{{ scanningText }}</md-button>
-    <span v-show="isScanning">
-      <md-spinner :md-size="40" md-indeterminate />
-    </span>
-  </div>
+        v-model="selectedDeviceIds"
+        @change="onCheckboxChange($event, device.Index)"
+        :label="device.Name"></v-checkbox>
+    </v-flex>
+    <v-flex>
+      <v-btn
+        @click="ScanningClicked">{{ scanningText }}</v-btn>
+      <span v-show="isScanning">
+        <!-- <md-spinner :md-size="40" md-indeterminate /> -->
+      </span>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script lang="ts" src="./ButtplugDeviceManager.ts">

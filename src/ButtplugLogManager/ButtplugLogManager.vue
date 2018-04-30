@@ -1,17 +1,19 @@
 <template>
-  <div id="buttplug-log-manager">
-    <textarea ref="logArea">{{ logMessages.join("\n") }}</textarea>
-    <br/>
-    <md-select v-model="logLevel" @change="LogLevelChange">
-      <md-option value="Off" selected>Off</md-option>
-      <md-option value="Fatal">Fatal</md-option>
-      <md-option value="Error">Error</md-option>
-      <md-option value="Warn">Warn</md-option>
-      <md-option value="Info">Info</md-option>
-      <md-option value="Debug">Debug</md-option>
-      <md-option value="Trace">Trace</md-option>
-    </md-select>
-  </div>
+  <v-layout column id="buttplug-log-manager">
+    <v-flex>
+      <v-subheader>Log Messages</v-subheader>
+    </v-flex>
+    <v-flex>
+      <textarea ref="logArea">{{ logMessages.join("\n") }}</textarea>
+    </v-flex>
+    <v-flex>
+      <v-select
+        v-model="logLevel"
+        @change="LogLevelChange"
+        :items="logLevels">
+      </v-select>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script lang="ts" src="./ButtplugLogManager.ts">

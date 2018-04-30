@@ -1,18 +1,20 @@
 import Vue from "vue";
 import { Component, Model, Prop, Watch } from "vue-property-decorator";
+import { ButtplugLogLevel } from "buttplug";
 
 @Component({})
 export default class ButtplugLogManager extends Vue {
   @Prop()
-  private logMessages: string[];
+  private logMessages!: string[];
 
   @Prop()
-  private isConnected: boolean;
+  private isConnected!: boolean;
 
-  @Model()
-  private logLevel: string;
+  private logLevel: string = "Off";
 
-  private lastLogLevel: string = this.logLevel;
+  private logLevels = ["Off", "Fatal", "Error", "Warn", "Info", "Debug", "Trace"];
+
+  private lastLogLevel: string = "Off";
 
   @Watch("isConnected")
   private onConnectionChange() {
