@@ -3,10 +3,10 @@ import { ButtplugClient, ButtplugMessage,
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
-import ButtplugConnectionManagerComponent from "../ButtplugConnectionManager/ButtplugConnectionManager";
+import ButtplugConnectionManagerComponent from "../ButtplugConnectionManager/ButtplugConnectionManager.vue";
 import ButtplugStartConnectEvent from "../ButtplugConnectionManager/ButtplugStartConnectEvent";
-import ButtplugDeviceManagerComponent from "../ButtplugDeviceManager/ButtplugDeviceManager";
-import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManager";
+import ButtplugDeviceManagerComponent from "../ButtplugDeviceManager/ButtplugDeviceManager.vue";
+import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManager.vue";
 
 @Component({
   components: {

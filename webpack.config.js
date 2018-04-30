@@ -116,7 +116,6 @@ module.exports = {
     new VueLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin({
       tslint: true,
-      vue: true
     }),
   ],
   node: {
