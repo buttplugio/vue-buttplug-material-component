@@ -3,9 +3,9 @@ const path = require('path');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  mode: "development",
   stats: {
     assets: false,
     colors: true,
@@ -105,7 +105,6 @@ module.exports = {
   },
   devtool: '#eval-source-map',
   plugins: [
-    new webpack.NamedModulesPlugin(),
     new webpack.ProvidePlugin({
       Vue: ['vue/dist/vue.esm.js', 'default']
     }),
@@ -118,32 +117,3 @@ module.exports = {
     fs: 'empty'
   }
 };
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map';
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new UglifyJSPlugin({
-      sourceMap: true,
-      uglifyOptions: {
-        mangle: {
-          keep_classnames: true,
-          keep_fnames: true
-        },
-        compress: {
-          keep_fnames: true,
-          warnings: false
-        }
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ]);
-}
