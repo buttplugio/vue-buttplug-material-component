@@ -1,7 +1,8 @@
 'use strict';
 const path = require('path');
 const webpack = require('webpack');
-const VueLoaderPlugin = require('vue-loader');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -25,10 +26,10 @@ module.exports = {
       {
         test: /\.ts$/,
         exclude: /node_modules|vue\/src|tests/,
-        loader: 'ts-loader',
-        options: {
-          appendTsSuffixTo: [/\.vue$/]
-        }
+        use: [{loader: 'ts-loader',
+               options: {
+                 appendTsSuffixTo: [/\.vue$/]
+               }}],
       },
       {
         test: /\.vue$/,
@@ -49,11 +50,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'css-loader'
-      },
-      {
-        test: /\.less$/,
-        loader: 'less-loader'
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -75,6 +72,9 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.NamedModulesPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      tslint: true,
+    }),
     new VueLoaderPlugin()
   ],
   node: {

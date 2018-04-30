@@ -8,6 +8,7 @@
   "scripts": {
     "build:dev": "webpack --progress --hide-modules --mode=development",
     "build": "webpack --progress --hide-modules --mode=production",
+    "build:example:dev": "webpack --progress --hide-modules --config=webpack.example.js",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
     "build:main": "tsc -p tsconfig.json",
@@ -27,6 +28,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.1",
     "noop-loader": "^1.0.0",
     "null-loader": "^0.1.1",
+    "style-loader": "^0.21.0",
     "ts-loader": "^4.2.0",
     "ts-node": "^6.0.2",
     "tslint": "^5.9.1",

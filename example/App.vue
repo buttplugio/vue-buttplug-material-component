@@ -6,7 +6,5 @@
   </v-app>
 </template>
 
-<style src="vuetify/dist/vuetify.min.css"></style>
-
 <script>
 </script>
