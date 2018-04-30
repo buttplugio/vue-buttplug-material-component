@@ -31,13 +31,13 @@ module.exports = {
       commonjs: 'vue',
       amd: 'vue'
     },
-    'vue-material': {
-      umd: 'VueMaterial',
-      global: 'VueMaterial',
-      root: 'VueMaterial',
-      commonjs2: 'vue-material',
-      commonjs: 'vue-material',
-      amd: 'vue-material'
+    'vuetify': {
+      umd: 'Vuetify',
+      global: 'Vuetify',
+      root: 'Vuetify',
+      commonjs2: 'vuetify',
+      commonjs: 'vuetify',
+      amd: 'vuetify'
     },
     'buttplug': {
       umd: 'Buttplug',
@@ -92,7 +92,7 @@ module.exports = {
     extensions: [".ts", ".js", ".vue"],
     alias: {
       'vue$': path.resolve('./node_modules/vue/dist/vue.esm.js'),
-      'vue-material$': path.resolve('./node_modules/vue-material/dist/vue-material.js'),
+      'vuetify$': path.resolve('./node_modules/vuetify/dist/vuetify.js'),
       'buttplug$': path.resolve('./node_modules/buttplug/dist/main/src/index.js')
     }
   },
