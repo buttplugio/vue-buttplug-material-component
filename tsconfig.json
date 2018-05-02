@@ -13,7 +13,7 @@
     "noImplicitThis": true,
     "outDir": "./dist/",
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "./dist/types",
     "importHelpers": true
   },
   "include": [
