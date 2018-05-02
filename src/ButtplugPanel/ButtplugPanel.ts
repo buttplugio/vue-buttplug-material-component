@@ -77,11 +77,18 @@ export class ButtplugPanelType extends Vue {
     await buttplugClient.ConnectLocal();
     this.isConnected = true;
     this.buttplugClient = buttplugClient;
+    this.$emit("connected");
   }
 
-  public Disconnect() {
+  public async Disconnect() {
     this.clearError();
     this.isConnected = false;
+    for (const deviceIndex of this.selectedDevices) {
+      await this.OnDeviceUnselected(deviceIndex);
+    }
+    for (const device of this.devices) {
+      this.RemoveDevice(device);
+    }
     this.devices = [];
     if (this.buttplugClient === null) {
       return;
@@ -90,6 +97,7 @@ export class ButtplugPanelType extends Vue {
       this.buttplugClient.Disconnect();
     }
     this.buttplugClient = null;
+    this.$emit("disconnected");
   }
 
   public async SetLogLevel(logLevel: string) {

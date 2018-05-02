@@ -32,6 +32,7 @@ export default class ButtplugDeviceManager extends Vue {
     }
     this.isScanning = false;
     this.scanningText = "Start Scanning";
+    this.selectedDevices = [];
   }
 
   private ScanningClicked(ev: Event) {
