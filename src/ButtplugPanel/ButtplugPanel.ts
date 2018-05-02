@@ -18,7 +18,7 @@ import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManage
 export class ButtplugPanelType extends Vue {
   private logMessages: string[] = [];
   private devices: Device[] = [];
-  private selectedDevices: Device[] = [];
+  private selectedDevices: number[] = [];
   private isConnected: boolean = false;
   private buttplugClient: ButtplugClient | null = null;
   private isServerScanning: boolean = false;
@@ -40,7 +40,7 @@ export class ButtplugPanelType extends Vue {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server.");
     }
-    if (!this.deviceSelected(aDevice)) {
+    if (!this.deviceSelected(aDevice.Index)) {
       throw new Error("Tried to send message to device that is not selected.");
     }
     if (aDevice.AllowedMessages.indexOf(aMsg.Type) === -1) {
@@ -83,7 +83,6 @@ export class ButtplugPanelType extends Vue {
     this.clearError();
     this.isConnected = false;
     this.devices = [];
-    this.selectedDevices = [];
     if (this.buttplugClient === null) {
       return;
     }
@@ -121,16 +120,16 @@ export class ButtplugPanelType extends Vue {
     await this.buttplugClient.StopScanning();
   }
 
+  private deviceSelected(deviceId: number) {
+    return this.selectedDevices.indexOf(deviceId) > -1;
+  }
+
   private setError(aError: string) {
     this.lastErrorMessage = aError;
   }
 
   private clearError() {
     this.lastErrorMessage = null;
-  }
-
-  private deviceSelected(aDevice: Device): boolean {
-    return this.selectedDevices.find((device) => aDevice.Index === device.Index) !== undefined;
   }
 
   private InitializeClient(aButtplugClient: ButtplugClient) {
@@ -150,38 +149,35 @@ export class ButtplugPanelType extends Vue {
   }
 
   private AddDevice(device: Device) {
-    if (!this.DeviceAlreadyAdded(device)) {
-      this.devices.push(device);
+    if (this.DeviceAlreadyAdded(device)) {
+      return;
     }
+    this.devices.push(device);
   }
 
   private RemoveDevice(device: Device) {
-    if (this.devices.indexOf(device) !== -1) {
-      this.devices.splice(this.devices.indexOf(device), 1);
+    if (this.devices.indexOf(device) === -1) {
+      return;
     }
+    this.devices.splice(this.devices.indexOf(device), 1);
+    if (this.selectedDevices.indexOf(device.Index) === -1) {
+      return;
+    }
+    this.selectedDevices.splice(this.selectedDevices.indexOf(device.Index), 1);
+    this.$emit("devicedisconnected", device);
   }
 
-  private OnSelectedDevicesChanged(aDeviceList: Device[]) {
-    const newSelectedDevices: Device[] = [];
-    for (const aDevice of this.selectedDevices) {
-      if (aDeviceList.find((device) => aDevice.Index === device.Index) !== undefined ||
-          this.buttplugClient === null) {
-        newSelectedDevices.push(aDevice);
-        continue;
-      }
-      this.$emit("devicedisconnected", aDevice);
-      // If a device is removed from selected devices, send a stop command to it.
-      this.buttplugClient.SendDeviceMessage(aDevice, new StopDeviceCmd()).catch((e) => console.log(e));
-    }
+  private OnDeviceSelected(deviceId: number) {
+    const device = this.devices.find((d) => (d.Index) === deviceId)!;
+    this.selectedDevices.push(deviceId);
+    this.$emit("deviceconnected", device);
+  }
 
-    aDeviceList.map((aDevice) => {
-      if (this.deviceSelected(aDevice)) {
-        return;
-      }
-      newSelectedDevices.push(aDevice);
-      this.$emit("deviceconnected", aDevice);
-    });
-    this.selectedDevices = newSelectedDevices;
+  private async OnDeviceUnselected(deviceId: number) {
+    const device = this.devices.find((d) => (d.Index) === deviceId)!;
+    await this.SendDeviceMessage(device, new StopDeviceCmd());
+    this.selectedDevices.splice(this.selectedDevices.indexOf(deviceId), 1);
+    this.$emit("devicedisconnected", device);
   }
 
   private ScanningFinished() {

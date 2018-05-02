@@ -4,9 +4,10 @@
     <v-flex>
       <v-checkbox
         v-for="device in devices"
-        :key="device.Id"
-        v-model="selectedDeviceIds"
-        @change="onCheckboxChange($event, device.Index)"
+        :key="device.Index"
+        :value="device.Index"
+        v-model="selectedDevices"
+        @change="onCheckboxChange(device.Index)"
         :label="device.Name"></v-checkbox>
     </v-flex>
     <v-flex>
