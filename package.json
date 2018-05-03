@@ -15,7 +15,7 @@
     "pretest": "yarn build:main"
   },
   "peerDependencies": {
-    "buttplug": ">=0.6.1",
+    "buttplug": ">=0.7.0",
     "vue": "^2.x",
     "vuetify": ">=1.0.17"
   },
