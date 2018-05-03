@@ -1,3 +1,11 @@
+# Version 0.2.0 - 2017/05/02
+
+- Move from vue-material to vuetify
+- Add cookie storage of websocket server address
+- Move to Webpack 4
+- Clean up components
+- Fix disconnect/ping timeout/device stop issues
+
 # Version 0.1.1 - 2017/02/17
 
 - Fix bug with devices already connected to server not showing up on websocket reconnect
