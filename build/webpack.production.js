@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = merge(common, {
-  mode: "production",
+  mode: "none",
   devtool: '#source-map',
   plugins: [
     new UglifyJSPlugin({
@@ -16,6 +16,7 @@ module.exports = merge(common, {
           keep_fnames: true
         },
         compress: {
+          keep_classnames: true,
           keep_fnames: true,
           warnings: false
         }

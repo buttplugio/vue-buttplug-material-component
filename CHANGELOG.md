@@ -1,3 +1,9 @@
+# Version 0.2.1 - 2017/05/03
+
+- Add workaround for uglify minification bug
+- Fix webpack output location
+- Fix classname minification bug
+
 # Version 0.2.0 - 2017/05/02
 
 - Move from vue-material to vuetify

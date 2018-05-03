@@ -83,12 +83,19 @@ export class ButtplugPanelType extends Vue {
   public async Disconnect() {
     this.clearError();
     this.isConnected = false;
+    // There's a bug in uglify that will strip parens incorrectly if this is
+    // compressed into the following for statement. This set does nothing and
+    // will be optimized away on compile, but keeps uglify from breaking.
+    const catchVariable = 2;
+
     for (const deviceIndex of this.selectedDevices) {
       await this.OnDeviceUnselected(deviceIndex);
     }
+
     for (const device of this.devices) {
       this.RemoveDevice(device);
     }
+
     this.devices = [];
     if (this.buttplugClient === null) {
       return;

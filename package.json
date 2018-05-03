@@ -1,27 +1,27 @@
 {
   "name": "vue-buttplug-material-component",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Vue.js component for Buttplug Client/Server interaction, with vuetify theming",
   "author": "Kyle Machulis <kyle@machul.is>",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build:dev": "webpack --progress --hide-modules --config webpack.base.js",
-    "build": "yarn build:main && webpack --progress --hide-modules --config webpack.production.js",
-    "build:example:dev": "webpack --progress --hide-modules --config=webpack.example.js",
+    "build:dev": "webpack --progress --hide-modules --config=build/webpack.base.js",
+    "build": "webpack --progress --hide-modules --config=build/webpack.production.js",
+    "build:example:dev": "webpack --progress --hide-modules --config=build/webpack.example.js",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
     "build:main": "tsc -p tsconfig.json",
     "pretest": "yarn build:main"
   },
   "peerDependencies": {
-    "buttplug": ">=0.6.1",
+    "buttplug": ">=0.7.1",
     "vue": "^2.x",
     "vuetify": ">=1.0.17"
   },
   "devDependencies": {
     "@types/node": "^10.0.3",
-    "buttplug": "^0.7.0",
+    "buttplug": "^0.7.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
@@ -36,7 +36,7 @@
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "vue": "^2.5.16",
-    "vue-loader": "^15.0.6",
+    "vue-loader": "^15.0.7",
     "vue-property-decorator": "^6.0.0",
     "vue-template-compiler": "^2.5.16",
     "vuetify": "^1.0.17",
