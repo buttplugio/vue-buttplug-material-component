@@ -11,9 +11,9 @@
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
-    "outDir": "./dist/",
+    "outDir": "./dist/ts",
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "./dist/types",
     "importHelpers": true
   },
   "include": [
