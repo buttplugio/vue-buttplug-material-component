@@ -6,9 +6,9 @@
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build:dev": "webpack --progress --hide-modules --config webpack.base.js",
-    "build": "yarn build:main && webpack --progress --hide-modules --config webpack.production.js",
-    "build:example:dev": "webpack --progress --hide-modules --config=webpack.example.js",
+    "build:dev": "webpack --progress --hide-modules --config=build/webpack.base.js",
+    "build": "webpack --progress --hide-modules --config=build/webpack.production.js",
+    "build:example:dev": "webpack --progress --hide-modules --config=build/webpack.example.js",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
     "build:main": "tsc -p tsconfig.json",

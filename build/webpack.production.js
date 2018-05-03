@@ -16,6 +16,7 @@ module.exports = merge(common, {
           keep_fnames: true
         },
         compress: {
+          keep_classnames: true,
           keep_fnames: true,
           warnings: false
         }

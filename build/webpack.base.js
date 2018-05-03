@@ -15,10 +15,10 @@ module.exports = {
     chunks: false,
     chunkModules: false
   },
-  entry: './src/index.ts',
+  entry: path.resolve('./src/index.ts'),
   output: {
-    path: path.resolve(__dirname, './dist/web/'),
-    publicPath: '/dist/web/',
+    path: path.resolve('./dist/'),
+    publicPath: '/dist/',
     filename: 'index.js',
     libraryTarget: 'umd'
   },
