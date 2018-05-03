@@ -7,7 +7,7 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "build:dev": "webpack --progress --hide-modules --config webpack.base.js",
-    "build": "webpack --progress --hide-modules --config webpack.production.js",
+    "build": "yarn build:main && webpack --progress --hide-modules --config webpack.production.js",
     "build:example:dev": "webpack --progress --hide-modules --config=webpack.example.js",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
@@ -20,8 +20,8 @@
     "vuetify": ">=1.0.17"
   },
   "devDependencies": {
-    "@types/node": "^9.6.7",
-    "buttplug": "^0.6.1",
+    "@types/node": "^10.0.3",
+    "buttplug": "^0.7.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
@@ -36,14 +36,14 @@
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "vue": "^2.5.16",
-    "vue-loader": "^15.0.4",
+    "vue-loader": "^15.0.6",
     "vue-property-decorator": "^6.0.0",
     "vue-template-compiler": "^2.5.16",
     "vuetify": "^1.0.17",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.15",
-    "webpack-dev-server": "^3.1.3",
+    "webpack-cli": "^2.1.2",
+    "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.2"
   },
   "pre-push": [],

@@ -19,7 +19,8 @@
       :devices="devices"
       :isConnected="isConnected"
       :isServerScanning="isServerScanning"
-      @selectedDevicesChanged="OnSelectedDevicesChanged"
+      @deviceSelected="OnDeviceSelected"
+      @deviceUnselected="OnDeviceUnselected"
       @startScanning="StartScanning"
       @stopScanning="StopScanning" />
     <buttplug-log-manager-component
