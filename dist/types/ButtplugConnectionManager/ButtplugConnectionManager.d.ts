@@ -5,6 +5,7 @@ export default class ButtplugConnectionManager extends Vue {
     private address;
     mounted(): void;
     private readonly HasBluetooth;
+    private CookieAddress(address);
     private ConnectWebsocket();
     private ConnectLocal();
     private Disconnect();

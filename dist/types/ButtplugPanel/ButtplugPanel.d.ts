@@ -14,18 +14,19 @@ export declare class ButtplugPanelType extends Vue {
     SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage): Promise<void>;
     ConnectWebsocket(aConnectObj: ButtplugStartConnectEvent): Promise<void>;
     ConnectLocal(aConnectObj: ButtplugStartConnectEvent): Promise<void>;
-    Disconnect(): void;
+    Disconnect(): Promise<void>;
     SetLogLevel(logLevel: string): Promise<void>;
     StartScanning(): Promise<void>;
     StopScanning(): Promise<void>;
+    private deviceSelected(deviceId);
     private setError(aError);
     private clearError();
-    private deviceSelected(aDevice);
     private InitializeClient(aButtplugClient);
     private AddLogMessage(logMessage);
     private DeviceAlreadyAdded(device);
     private AddDevice(device);
     private RemoveDevice(device);
-    private OnSelectedDevicesChanged(aDeviceList);
+    private OnDeviceSelected(deviceId);
+    private OnDeviceUnselected(deviceId);
     private ScanningFinished();
 }
