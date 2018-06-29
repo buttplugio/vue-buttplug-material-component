@@ -191,12 +191,20 @@ export class ButtplugPanelType extends Vue {
   }
 
   private OnDeviceSelected(deviceId: number) {
+    // If we're not connected, ignore.
+    if (!this.IsConnected) {
+      return;
+    }
     const device = this.devices.find((d) => (d.Index) === deviceId)!;
     this.selectedDevices.push(deviceId);
     this.$emit("deviceconnected", device);
   }
 
   private async OnDeviceUnselected(deviceId: number) {
+    // If we're not connected, ignore.
+    if (!this.IsConnected) {
+      return;
+    }
     const device = this.devices.find((d) => (d.Index) === deviceId)!;
     await this.SendDeviceMessage(device, new StopDeviceCmd());
     this.selectedDevices.splice(this.selectedDevices.indexOf(deviceId), 1);
