@@ -2,7 +2,7 @@
   <v-container id="buttplug-panel">
     <buttplug-connection-manager-component
       width="100%"
-      :isConnected="isConnected"
+      :isConnected="IsConnected"
       @connectwebsocket="ConnectWebsocket"
       @connectlocal="ConnectLocal"
       @disconnect="Disconnect"/>
@@ -15,17 +15,17 @@
       </v-flex>
     </v-layout>
     <buttplug-device-manager-component
-      v-show="isConnected"
+      v-show="IsConnected"
       :devices="devices"
-      :isConnected="isConnected"
-      :isServerScanning="isServerScanning"
+      :isConnected="IsConnected"
+      :isServerScanning="IsServerScanning"
       @deviceSelected="OnDeviceSelected"
       @deviceUnselected="OnDeviceUnselected"
       @startScanning="StartScanning"
       @stopScanning="StopScanning" />
     <buttplug-log-manager-component
-      v-show="isConnected"
-      :isConnected="isConnected"
+      v-show="IsConnected"
+      :isConnected="IsConnected"
       :logMessages="logMessages"
       @loglevel="SetLogLevel"/>
   </v-container>

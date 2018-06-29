@@ -35,6 +35,13 @@ export default class ButtplugDeviceManager extends Vue {
     this.selectedDevices = [];
   }
 
+  @Watch("devices")
+  private onDeviceChange() {
+    const deviceIndexes = this.devices.map((x) => x.Index);
+    const difference = this.selectedDevices.filter((x) => deviceIndexes.indexOf(x) === -1);
+    this.selectedDevices = this.selectedDevices.filter((x) => difference.indexOf(x) !== -1);
+  }
+
   private ScanningClicked(ev: Event) {
     if (!this.isScanning) {
       this.isScanning = true;

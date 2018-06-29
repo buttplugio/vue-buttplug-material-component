@@ -1,3 +1,10 @@
+# Version 0.2.2 - 2017/06/28
+
+- Update dependencies, requiring Buttplug 0.8.0 as a peer dependency
+- Fix issue with devices not deregistering on websocket disconnect
+- Fix issue with devices coming up selected on reconnect
+- Make error messages more descriptive
+
 # Version 0.2.1 - 2017/05/03
 
 - Add workaround for uglify minification bug
