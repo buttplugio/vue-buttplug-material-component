@@ -19,14 +19,20 @@ export class ButtplugPanelType extends Vue {
   private logMessages: string[] = [];
   private devices: Device[] = [];
   private selectedDevices: number[] = [];
-  private isConnected: boolean = false;
   private buttplugClient: ButtplugClient | null = null;
-  private isServerScanning: boolean = false;
   private lastErrorMessage: string | null = null;
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
     ButtplugMessageBus.$on("stopalldevices", this.StopAllDevices);
+  }
+
+  private get IsServerScanning(): boolean {
+    return this.buttplugClient !== null ? this.buttplugClient.IsScanning : false;
+  }
+
+  private get IsConnected(): boolean {
+    return this.buttplugClient !== null ? this.buttplugClient.Connected : false;
   }
 
   public async StopAllDevices() {
@@ -55,7 +61,6 @@ export class ButtplugPanelType extends Vue {
     try {
       this.InitializeClient(buttplugClient);
       await buttplugClient.ConnectWebsocket(aConnectObj.address);
-      this.isConnected = true;
       this.buttplugClient = buttplugClient;
     } catch (e) {
       // If we get an error thrown while trying to connect, we won't get much
@@ -75,14 +80,12 @@ export class ButtplugPanelType extends Vue {
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     await this.InitializeClient(buttplugClient);
     await buttplugClient.ConnectLocal();
-    this.isConnected = true;
     this.buttplugClient = buttplugClient;
     this.$emit("connected");
   }
 
   public async Disconnect() {
     this.clearError();
-    this.isConnected = false;
     // There's a bug in uglify that will strip parens incorrectly if this is
     // compressed into the following for statement. This set does nothing and
     // will be optimized away on compile, but keeps uglify from breaking.
@@ -119,7 +122,6 @@ export class ButtplugPanelType extends Vue {
       throw new Error("Not connected to a Buttplug Server!");
     }
     this.lastErrorMessage = null;
-    this.isServerScanning = true;
     try {
       await this.buttplugClient.StartScanning();
     } catch (e) {
@@ -131,7 +133,6 @@ export class ButtplugPanelType extends Vue {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server!");
     }
-    this.isServerScanning = false;
     await this.buttplugClient.StopScanning();
   }
 
@@ -152,7 +153,6 @@ export class ButtplugPanelType extends Vue {
     aButtplugClient.addListener("log", this.AddLogMessage);
     aButtplugClient.addListener("deviceadded", this.AddDevice);
     aButtplugClient.addListener("deviceremoved", this.RemoveDevice);
-    aButtplugClient.addListener("scanningfinished", this.ScanningFinished);
   }
 
   private AddLogMessage(logMessage: Log) {
@@ -193,9 +193,5 @@ export class ButtplugPanelType extends Vue {
     await this.SendDeviceMessage(device, new StopDeviceCmd());
     this.selectedDevices.splice(this.selectedDevices.indexOf(deviceId), 1);
     this.$emit("devicedisconnected", device);
-  }
-
-  private ScanningFinished() {
-    this.isServerScanning = false;
   }
 }
