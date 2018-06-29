@@ -5,6 +5,6 @@ export default class ButtplugLogManager extends Vue {
     private logLevel;
     private logLevels;
     private lastLogLevel;
-    private onConnectionChange();
-    private LogLevelChange();
+    private onConnectionChange;
+    private LogLevelChange;
 }

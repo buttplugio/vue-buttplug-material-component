@@ -6,8 +6,9 @@ export default class ButtplugDeviceManager extends Vue {
     private selectedDevices;
     private scanningText;
     private isScanning;
-    private onServerScanningChange();
-    private onConnectionChange();
-    private ScanningClicked(ev);
-    private onCheckboxChange(aDeviceId);
+    private onServerScanningChange;
+    private onConnectionChange;
+    private onDeviceChange;
+    private ScanningClicked;
+    private onCheckboxChange;
 }
