@@ -67,10 +67,18 @@ export class ButtplugPanelType extends Vue {
       // information on why due to browser security contraints. Just explain
       // every possible error that could happen and hope the user figures it
       // out.
-      this.setError("Websocket connection failed. This could be due to the server address being wrong, " +
-                    "the server not being available, or if this is being hosted from an https site, " +
-                    "the SSL certificate not being accepted by the browser. Check your Buttplug Server " +
-                    "software to see if there are any errors listed.");
+      let errorString = "Websocket connection failed. ";
+
+      if (aConnectObj.address.indexOf("ws") !== 0 && aConnectObj.address.indexOf("wss") !== 0) {
+        errorString += "The address of the server should usually begin with ws:// or wss://. Are you sure " +
+          "that you have the address correct?";
+      } else {
+        errorString += "This could be due to the server address being wrong, " +
+        "the server not being available, or if this is being hosted from an https site, " +
+        "the SSL certificate not being accepted by the browser. Check your Buttplug Server " +
+        "software to see if there are any errors listed.";
+      }
+      this.setError(errorString);
       return;
     }
   }
