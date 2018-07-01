@@ -61,4 +61,8 @@ export default class ButtplugDeviceManager extends Vue {
     }
     this.$emit("deviceUnselected", aDeviceId);
   }
+
+  private ShowSimulator() {
+    this.$emit("showSimulator");
+  }
 }

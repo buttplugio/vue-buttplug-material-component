@@ -17,6 +17,10 @@
         <!-- <md-spinner :md-size="40" md-indeterminate /> -->
       </span>
     </v-flex>
+    <v-flex>
+      <v-btn
+        @click="ShowSimulator">Show Simulator Panel</v-btn>
+    </v-flex>
   </v-layout>
 </template>
 

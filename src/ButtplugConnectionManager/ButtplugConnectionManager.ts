@@ -33,10 +33,16 @@ export default class ButtplugConnectionManager extends Vue {
     this.$emit("connectwebsocket", {address: this.address,
                                     clientName: this.clientName});
   }
+
   private ConnectLocal() {
     this.$emit("connectlocal", {address: this.address,
                                 clientName: this.clientName});
   }
+
+  private ConnectSimulator() {
+    this.$emit("connectsimulator");
+  }
+
   private Disconnect() {
     this.$emit("disconnect");
   }
