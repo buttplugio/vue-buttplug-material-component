@@ -1,17 +1,21 @@
-# Version 0.2.2 - 2017/06/28
+# Version 0.2.3 - 2018/07/01
+
+- Add Simulator options
+
+# Version 0.2.2 - 2018/06/28
 
 - Update dependencies, requiring Buttplug 0.8.0 as a peer dependency
 - Fix issue with devices not deregistering on websocket disconnect
 - Fix issue with devices coming up selected on reconnect
 - Make error messages more descriptive
 
-# Version 0.2.1 - 2017/05/03
+# Version 0.2.1 - 2018/05/03
 
 - Add workaround for uglify minification bug
 - Fix webpack output location
 - Fix classname minification bug
 
-# Version 0.2.0 - 2017/05/02
+# Version 0.2.0 - 2018/05/02
 
 - Move from vue-material to vuetify
 - Add cookie storage of websocket server address
@@ -19,12 +23,12 @@
 - Clean up components
 - Fix disconnect/ping timeout/device stop issues
 
-# Version 0.1.1 - 2017/02/17
+# Version 0.1.1 - 2018/02/17
 
 - Fix bug with devices already connected to server not showing up on websocket reconnect
 - Fix bug with websocket server disconnect not updating GUI
 
-# Version 0.1.0 - 2017/01/25
+# Version 0.1.0 - 2018/01/25
 
 - Update dependencies
 - Update Buttplug dependency to 0.5.x (rolling minor version due to change)
