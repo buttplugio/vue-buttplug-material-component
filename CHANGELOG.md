@@ -1,3 +1,8 @@
+# Version 0.2.4 - 2018/07/01
+
+- Fix CSS addition that wasn't needed
+- Fix webpack external paths
+
 # Version 0.2.3 - 2018/07/01
 
 - Add Simulator options
