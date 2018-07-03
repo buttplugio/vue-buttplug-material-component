@@ -15,13 +15,13 @@
     "pretest": "yarn build:main"
   },
   "peerDependencies": {
-    "buttplug": ">=0.8.0",
+    "buttplug": ">=0.8.1",
     "vue": "^2.x",
     "vuetify": ">=1.0.17"
   },
   "devDependencies": {
-    "@types/node": "^10.5.0",
-    "buttplug": "^0.8.0",
+    "@types/node": "^10.5.1",
+    "buttplug": "^0.8.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "fork-ts-checker-webpack-plugin": "^0.4.2",
@@ -40,8 +40,8 @@
     "vue-loader": "^15.2.4",
     "vue-property-decorator": "^7.0.0",
     "vue-template-compiler": "^2.5.16",
-    "vuetify": "^1.0.19",
-    "webpack": "^4.13.0",
+    "vuetify": "^1.1.1",
+    "webpack": "^4.14.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
