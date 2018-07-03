@@ -39,8 +39,6 @@
  export default ButtplugPanelType;
 </script>
 
-<style lang="css" src="vuetify/dist/vuetify.min.css"></style>
-
 <style lang="css">
 
  .buttplug-sidebar {
