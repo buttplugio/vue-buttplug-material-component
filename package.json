@@ -8,6 +8,7 @@
   "scripts": {
     "build:dev": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.base.js",
     "build": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.production.js",
+    "build:analyze": "webpack --hide-modules --config=build/webpack.analyzer.js",
     "build:example:dev": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.example.js",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "tslint:fix": "tslint -c tslint.json --fix semicolon,comma,no-var-keyword,ordered-imports 'src/**/*.ts' 'tests/**/*.ts'",
