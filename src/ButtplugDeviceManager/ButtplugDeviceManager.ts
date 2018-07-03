@@ -7,10 +7,13 @@ export default class ButtplugDeviceManager extends Vue {
   @Prop()
   private devices!: Device[];
 
-  @Prop()
+  @Prop({default: false})
   private isServerScanning!: boolean;
 
-  @Prop()
+  @Prop({default: false})
+  private isSimulator!: boolean;
+
+  @Prop({default: false})
   private isConnected!: boolean;
 
   private selectedDevices: number[] = [];
@@ -18,7 +21,7 @@ export default class ButtplugDeviceManager extends Vue {
   private isScanning: boolean = false;
 
   @Watch("isServerScanning")
-  private onServerScanningChange() {
+  private OnServerScanningChange() {
     if (!this.isServerScanning) {
       this.isScanning = false;
       this.scanningText = "Start Scanning";
@@ -26,7 +29,7 @@ export default class ButtplugDeviceManager extends Vue {
   }
 
   @Watch("isConnected")
-  private onConnectionChange() {
+  private OnConnectionChange() {
     if (this.isConnected) {
       return;
     }
@@ -36,7 +39,7 @@ export default class ButtplugDeviceManager extends Vue {
   }
 
   @Watch("devices")
-  private onDeviceChange() {
+  private OnDeviceChange() {
     const deviceIndexes = this.devices.map((x) => x.Index);
     const difference = this.selectedDevices.filter((x) => deviceIndexes.indexOf(x) === -1);
     this.selectedDevices = this.selectedDevices.filter((x) => difference.indexOf(x) !== -1);
@@ -54,11 +57,15 @@ export default class ButtplugDeviceManager extends Vue {
     this.$emit("stopScanning");
   }
 
-  private onCheckboxChange(aDeviceId: number) {
+  private OnCheckboxChange(aDeviceId: number) {
     if (this.selectedDevices.indexOf(aDeviceId) >= 0) {
       this.$emit("deviceSelected", aDeviceId);
       return;
     }
     this.$emit("deviceUnselected", aDeviceId);
+  }
+
+  private ShowSimulator() {
+    this.$emit("showSimulator");
   }
 }
