@@ -7,7 +7,7 @@
         :key="device.Index"
         :value="device.Index"
         v-model="selectedDevices"
-        @change="onCheckboxChange(device.Index)"
+        @change="OnCheckboxChange(device.Index)"
         :label="device.Name"></v-checkbox>
     </v-flex>
     <v-flex>
@@ -17,7 +17,7 @@
         <!-- <md-spinner :md-size="40" md-indeterminate /> -->
       </span>
     </v-flex>
-    <v-flex>
+    <v-flex v-if="isSimulator">
       <v-btn
         @click="ShowSimulator">Show Simulator Panel</v-btn>
     </v-flex>

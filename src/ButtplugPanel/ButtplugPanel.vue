@@ -20,6 +20,7 @@
       :devices="devices"
       :isConnected="IsConnected"
       :isServerScanning="IsServerScanning"
+      :isSimulator="isSimulator"
       @deviceSelected="OnDeviceSelected"
       @deviceUnselected="OnDeviceUnselected"
       @startScanning="StartScanning"
