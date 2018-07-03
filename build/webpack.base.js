@@ -46,7 +46,9 @@ module.exports = {
       commonjs2: 'buttplug',
       commonjs: 'buttplug',
       amd: 'buttplug'
-    }
+    },
+    'buttplug/dist/main/src/devtools': 'buttplug/dist/main/src/devtools',
+    'buttplug/dist/main/src/devtools/web/index.web': 'buttplug/dist/main/src/devtools/web/index.web',
   },
   module: {
     rules: [
@@ -98,8 +100,6 @@ module.exports = {
     extensions: [".ts", ".js", ".vue"],
     alias: {
       'vue$': path.resolve('./node_modules/vue/dist/vue.esm.js'),
-      'vuetify$': path.resolve('./node_modules/vuetify/dist/vuetify.js'),
-      'buttplug$': path.resolve('./node_modules/buttplug/dist/main/src/index.js')
     }
   },
   devServer: {
