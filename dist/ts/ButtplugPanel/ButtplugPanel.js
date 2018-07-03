@@ -1,5 +1,7 @@
 import * as tslib_1 from "tslib";
 import { ButtplugClient, StopDeviceCmd } from "buttplug";
+import { CreateDevToolsClient } from "buttplug/dist/main/src/devtools";
+import { CreateDeviceManagerPanel, RemoveDeviceManagerPanel } from "buttplug/dist/main/src/devtools/web/index.web";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
@@ -14,6 +16,7 @@ let ButtplugPanelType = class ButtplugPanelType extends Vue {
         this.selectedDevices = [];
         this.buttplugClient = null;
         this.lastErrorMessage = null;
+        this.isSimulator = false;
     }
     mounted() {
         ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
@@ -87,13 +90,26 @@ let ButtplugPanelType = class ButtplugPanelType extends Vue {
             this.$emit("connected");
         });
     }
+    ConnectSimulator() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            this.clearError();
+            const buttplugClient = yield CreateDevToolsClient();
+            // DevToolsClient connects in the creation function, don't reconnect.
+            yield this.InitializeClient(buttplugClient);
+            this.buttplugClient = buttplugClient;
+            this.isSimulator = true;
+            this.$emit("connected");
+        });
+    }
+    ShowSimulatorPanel() {
+        if (!this.buttplugClient || !this.buttplugClient.Connector) {
+            return;
+        }
+        CreateDeviceManagerPanel(this.buttplugClient.Connector.Server);
+    }
     Disconnect() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             this.clearError();
-            // There's a bug in uglify that will strip parens incorrectly if this is
-            // compressed into the following for statement. This set does nothing and
-            // will be optimized away on compile, but keeps uglify from breaking.
-            const catchVariable = 2;
             for (const deviceIndex of this.selectedDevices) {
                 yield this.OnDeviceUnselected(deviceIndex);
             }
@@ -108,6 +124,9 @@ let ButtplugPanelType = class ButtplugPanelType extends Vue {
                 this.buttplugClient.Disconnect();
             }
             this.buttplugClient = null;
+            // Simulator cleanup
+            this.isSimulator = false;
+            RemoveDeviceManagerPanel();
             this.$emit("disconnected");
         });
     }

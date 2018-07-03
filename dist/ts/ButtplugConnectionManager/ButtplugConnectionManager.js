@@ -34,6 +34,9 @@ let ButtplugConnectionManager = class ButtplugConnectionManager extends Vue {
         this.$emit("connectlocal", { address: this.address,
             clientName: this.clientName });
     }
+    ConnectSimulator() {
+        this.$emit("connectsimulator");
+    }
     Disconnect() {
         this.$emit("disconnect");
     }

@@ -8,13 +8,13 @@ let ButtplugDeviceManager = class ButtplugDeviceManager extends Vue {
         this.scanningText = "Start Scanning";
         this.isScanning = false;
     }
-    onServerScanningChange() {
+    OnServerScanningChange() {
         if (!this.isServerScanning) {
             this.isScanning = false;
             this.scanningText = "Start Scanning";
         }
     }
-    onConnectionChange() {
+    OnConnectionChange() {
         if (this.isConnected) {
             return;
         }
@@ -22,7 +22,7 @@ let ButtplugDeviceManager = class ButtplugDeviceManager extends Vue {
         this.scanningText = "Start Scanning";
         this.selectedDevices = [];
     }
-    onDeviceChange() {
+    OnDeviceChange() {
         const deviceIndexes = this.devices.map((x) => x.Index);
         const difference = this.selectedDevices.filter((x) => deviceIndexes.indexOf(x) === -1);
         this.selectedDevices = this.selectedDevices.filter((x) => difference.indexOf(x) !== -1);
@@ -38,12 +38,15 @@ let ButtplugDeviceManager = class ButtplugDeviceManager extends Vue {
         this.scanningText = "Start Scanning";
         this.$emit("stopScanning");
     }
-    onCheckboxChange(aDeviceId) {
+    OnCheckboxChange(aDeviceId) {
         if (this.selectedDevices.indexOf(aDeviceId) >= 0) {
             this.$emit("deviceSelected", aDeviceId);
             return;
         }
         this.$emit("deviceUnselected", aDeviceId);
+    }
+    ShowSimulator() {
+        this.$emit("showSimulator");
     }
 };
 tslib_1.__decorate([
@@ -51,11 +54,15 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Array)
 ], ButtplugDeviceManager.prototype, "devices", void 0);
 tslib_1.__decorate([
-    Prop(),
+    Prop({ default: false }),
     tslib_1.__metadata("design:type", Boolean)
 ], ButtplugDeviceManager.prototype, "isServerScanning", void 0);
 tslib_1.__decorate([
-    Prop(),
+    Prop({ default: false }),
+    tslib_1.__metadata("design:type", Boolean)
+], ButtplugDeviceManager.prototype, "isSimulator", void 0);
+tslib_1.__decorate([
+    Prop({ default: false }),
     tslib_1.__metadata("design:type", Boolean)
 ], ButtplugDeviceManager.prototype, "isConnected", void 0);
 tslib_1.__decorate([
@@ -63,19 +70,19 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], ButtplugDeviceManager.prototype, "onServerScanningChange", null);
+], ButtplugDeviceManager.prototype, "OnServerScanningChange", null);
 tslib_1.__decorate([
     Watch("isConnected"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], ButtplugDeviceManager.prototype, "onConnectionChange", null);
+], ButtplugDeviceManager.prototype, "OnConnectionChange", null);
 tslib_1.__decorate([
     Watch("devices"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], ButtplugDeviceManager.prototype, "onDeviceChange", null);
+], ButtplugDeviceManager.prototype, "OnDeviceChange", null);
 ButtplugDeviceManager = tslib_1.__decorate([
     Component
 ], ButtplugDeviceManager);

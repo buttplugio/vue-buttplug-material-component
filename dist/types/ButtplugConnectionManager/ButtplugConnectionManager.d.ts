@@ -8,5 +8,6 @@ export default class ButtplugConnectionManager extends Vue {
     private CookieAddress;
     private ConnectWebsocket;
     private ConnectLocal;
+    private ConnectSimulator;
     private Disconnect;
 }

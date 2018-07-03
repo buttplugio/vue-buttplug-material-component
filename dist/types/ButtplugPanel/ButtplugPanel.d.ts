@@ -7,6 +7,7 @@ export declare class ButtplugPanelType extends Vue {
     private selectedDevices;
     private buttplugClient;
     private lastErrorMessage;
+    private isSimulator;
     mounted(): void;
     private readonly IsServerScanning;
     private readonly IsConnected;
@@ -14,6 +15,8 @@ export declare class ButtplugPanelType extends Vue {
     SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage): Promise<void>;
     ConnectWebsocket(aConnectObj: ButtplugStartConnectEvent): Promise<void>;
     ConnectLocal(aConnectObj: ButtplugStartConnectEvent): Promise<void>;
+    ConnectSimulator(): Promise<void>;
+    ShowSimulatorPanel(): void;
     Disconnect(): Promise<void>;
     SetLogLevel(logLevel: string): Promise<void>;
     StartScanning(): Promise<void>;
