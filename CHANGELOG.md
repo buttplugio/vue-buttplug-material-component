@@ -1,3 +1,7 @@
+# Version 0.2.5 - 2018/07/06
+
+- Readd uglify hack for for-each compression fix
+
 # Version 0.2.4 - 2018/07/01
 
 - Fix CSS addition that wasn't needed
