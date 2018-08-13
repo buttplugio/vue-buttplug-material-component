@@ -65,6 +65,7 @@ export class ButtplugPanelType extends Vue {
       this.InitializeClient(buttplugClient);
       await buttplugClient.ConnectWebsocket(aConnectObj.address);
       this.buttplugClient = buttplugClient;
+      this.$emit("connected");
     } catch (e) {
       // If we get an error thrown while trying to connect, we won't get much
       // information on why due to browser security contraints. Just explain
