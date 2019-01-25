@@ -1,8 +1,8 @@
 import Vue from "vue";
-import { ButtplugMessage, Device } from "buttplug";
+import { ButtplugMessage, ButtplugClientDevice } from "buttplug";
 export const ButtplugMessageBus = new Vue();
 
-export function SendDeviceMessage(aDevice: Device, aMessage: ButtplugMessage) {
+export function SendDeviceMessage(aDevice: ButtplugClientDevice, aMessage: ButtplugMessage) {
   ButtplugMessageBus.$emit("devicemessage", aDevice, aMessage);
 }
 

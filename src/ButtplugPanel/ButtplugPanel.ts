@@ -1,4 +1,4 @@
-import { ButtplugClient, ButtplugMessage, ButtplugDeviceMessage, Device,
+import { ButtplugClient, ButtplugMessage, ButtplugDeviceMessage, ButtplugClientDevice,
          Log, StopDeviceCmd, Error as ErrorMsg, ButtplugEmbeddedServerConnector } from "buttplug";
 import { CreateDevToolsClient } from "buttplug/dist/main/src/devtools";
 import { CreateDeviceManagerPanel, RemoveDeviceManagerPanel } from "buttplug/dist/main/src/devtools/web/index.web";
@@ -19,7 +19,7 @@ import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManage
 })
 export class ButtplugPanelType extends Vue {
   private logMessages: string[] = [];
-  private devices: Device[] = [];
+  private devices: ButtplugClientDevice[] = [];
   private selectedDevices: number[] = [];
   private buttplugClient: ButtplugClient | null = null;
   private lastErrorMessage: string | null = null;
@@ -45,14 +45,14 @@ export class ButtplugPanelType extends Vue {
     await this.buttplugClient.StopAllDevices();
   }
 
-  public async SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage) {
+  public async SendDeviceMessage(aDevice: ButtplugClientDevice, aMsg: ButtplugDeviceMessage) {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server.");
     }
     if (!this.deviceSelected(aDevice.Index)) {
       throw new Error("Tried to send message to device that is not selected.");
     }
-    if (aDevice.AllowedMessages.indexOf(aMsg.Type) === -1) {
+    if (aDevice.AllowedMessages.indexOf(aMsg.Type.toString()) === -1) {
       throw new Error("Device does not take that type of message.");
     }
     await this.buttplugClient.SendDeviceMessage(aDevice, aMsg);
@@ -192,18 +192,18 @@ export class ButtplugPanelType extends Vue {
     this.logMessages.push(logMessage.LogMessage);
   }
 
-  private DeviceAlreadyAdded(device: Device): boolean {
+  private DeviceAlreadyAdded(device: ButtplugClientDevice): boolean {
     return this.devices.filter((d) => device.Index === d.Index).length !== 0;
   }
 
-  private AddDevice(device: Device) {
+  private AddDevice(device: ButtplugClientDevice) {
     if (this.DeviceAlreadyAdded(device)) {
       return;
     }
     this.devices.push(device);
   }
 
-  private RemoveDevice(device: Device) {
+  private RemoveDevice(device: ButtplugClientDevice) {
     if (this.devices.indexOf(device) === -1) {
       return;
     }

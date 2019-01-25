@@ -1,11 +1,11 @@
-import { Device } from "buttplug";
+import { ButtplugClientDevice } from "buttplug";
 import Vue from "vue";
 import { Component, Model, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class ButtplugDeviceManager extends Vue {
   @Prop()
-  private devices!: Device[];
+  private devices!: ButtplugClientDevice[];
 
   @Prop({default: false})
   private isServerScanning!: boolean;
