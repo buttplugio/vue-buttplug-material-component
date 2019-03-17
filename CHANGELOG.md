@@ -1,3 +1,7 @@
+# Version 0.3.0 - 2019/03/16
+
+- Update dependencies, including Buttplug to 0.11.0
+
 # Version 0.2.5 - 2018/07/06
 
 - Readd uglify hack for for-each compression fix
