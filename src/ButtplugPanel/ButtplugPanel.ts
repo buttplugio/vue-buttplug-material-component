@@ -1,7 +1,6 @@
-import { ButtplugClient, ButtplugMessage, ButtplugDeviceMessage, Device,
-         Log, StopDeviceCmd, Error as ErrorMsg, ButtplugEmbeddedServerConnector } from "buttplug";
-import { CreateDevToolsClient } from "buttplug/dist/main/src/devtools";
-import { CreateDeviceManagerPanel, RemoveDeviceManagerPanel } from "buttplug/dist/main/src/devtools/web/index.web";
+import { ButtplugClient, ButtplugMessage, ButtplugDeviceMessage, ButtplugClientDevice,
+         Log, StopDeviceCmd, Error as ErrorMsg, ButtplugEmbeddedClientConnector,
+         ButtplugBrowserWebsocketClientConnector } from "buttplug";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
@@ -19,7 +18,7 @@ import ButtplugLogManagerComponent from "../ButtplugLogManager/ButtplugLogManage
 })
 export class ButtplugPanelType extends Vue {
   private logMessages: string[] = [];
-  private devices: Device[] = [];
+  private devices: ButtplugClientDevice[] = [];
   private selectedDevices: number[] = [];
   private buttplugClient: ButtplugClient | null = null;
   private lastErrorMessage: string | null = null;
@@ -45,14 +44,14 @@ export class ButtplugPanelType extends Vue {
     await this.buttplugClient.StopAllDevices();
   }
 
-  public async SendDeviceMessage(aDevice: Device, aMsg: ButtplugDeviceMessage) {
+  public async SendDeviceMessage(aDevice: ButtplugClientDevice, aMsg: ButtplugDeviceMessage) {
     if (this.buttplugClient === null) {
       throw new Error("Not connected to a Buttplug Server.");
     }
     if (!this.deviceSelected(aDevice.Index)) {
       throw new Error("Tried to send message to device that is not selected.");
     }
-    if (aDevice.AllowedMessages.indexOf(aMsg.Type) === -1) {
+    if (aDevice.AllowedMessages.indexOf(aMsg.Type.name) === -1) {
       throw new Error("Device does not take that type of message.");
     }
     await this.buttplugClient.SendDeviceMessage(aDevice, aMsg);
@@ -63,7 +62,7 @@ export class ButtplugPanelType extends Vue {
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     try {
       this.InitializeClient(buttplugClient);
-      await buttplugClient.ConnectWebsocket(aConnectObj.address);
+      await buttplugClient.Connect(new ButtplugBrowserWebsocketClientConnector(aConnectObj.address));
       this.buttplugClient = buttplugClient;
       this.$emit("connected");
     } catch (e) {
@@ -91,27 +90,27 @@ export class ButtplugPanelType extends Vue {
     this.clearError();
     const buttplugClient = new ButtplugClient(aConnectObj.clientName);
     await this.InitializeClient(buttplugClient);
-    await buttplugClient.ConnectLocal();
+    await buttplugClient.Connect(new ButtplugEmbeddedClientConnector());
     this.buttplugClient = buttplugClient;
     this.$emit("connected");
   }
 
-  public async ConnectSimulator() {
-    this.clearError();
-    const buttplugClient = await CreateDevToolsClient();
-    // DevToolsClient connects in the creation function, don't reconnect.
-    await this.InitializeClient(buttplugClient);
-    this.buttplugClient = buttplugClient;
-    this.isSimulator = true;
-    this.$emit("connected");
-  }
+  // public async ConnectSimulator() {
+  //   this.clearError();
+  //   const buttplugClient = await CreateDevToolsClient();
+  //   // DevToolsClient connects in the creation function, don't reconnect.
+  //   await this.InitializeClient(buttplugClient);
+  //   this.buttplugClient = buttplugClient;
+  //   this.isSimulator = true;
+  //   this.$emit("connected");
+  // }
 
-  public ShowSimulatorPanel() {
-    if (!this.buttplugClient || !this.buttplugClient.Connector) {
-      return;
-    }
-    CreateDeviceManagerPanel((this.buttplugClient.Connector as ButtplugEmbeddedServerConnector).Server!);
-  }
+  // public ShowSimulatorPanel() {
+  //   if (!this.buttplugClient || !this.buttplugClient.Connector) {
+  //     return;
+  //   }
+  //   CreateDeviceManagerPanel((this.buttplugClient.Connector as ButtplugEmbeddedServerConnector).Server!);
+  // }
 
   public async Disconnect() {
     this.clearError();
@@ -139,7 +138,7 @@ export class ButtplugPanelType extends Vue {
 
     // Simulator cleanup
     this.isSimulator = false;
-    RemoveDeviceManagerPanel();
+    // RemoveDeviceManagerPanel();
     this.$emit("disconnected");
   }
 
@@ -192,18 +191,18 @@ export class ButtplugPanelType extends Vue {
     this.logMessages.push(logMessage.LogMessage);
   }
 
-  private DeviceAlreadyAdded(device: Device): boolean {
+  private DeviceAlreadyAdded(device: ButtplugClientDevice): boolean {
     return this.devices.filter((d) => device.Index === d.Index).length !== 0;
   }
 
-  private AddDevice(device: Device) {
+  private AddDevice(device: ButtplugClientDevice) {
     if (this.DeviceAlreadyAdded(device)) {
       return;
     }
     this.devices.push(device);
   }
 
-  private RemoveDevice(device: Device) {
+  private RemoveDevice(device: ButtplugClientDevice) {
     if (this.devices.indexOf(device) === -1) {
       return;
     }
