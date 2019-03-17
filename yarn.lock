@@ -656,10 +656,10 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-buttplug@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/buttplug/-/buttplug-0.11.0.tgz#4c506f0a4387a985797722e23ca80319281fe323"
-  integrity sha512-V1rsCg402B76HwurYTPLQcBvdVWxM6eEsae4l1CG4kmd/neTbEw53MAsDBoH6YYhJO2SrJ1uritzptWuzs5Q6g==
+buttplug@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/buttplug/-/buttplug-0.11.1.tgz#9314cfdb7d8c7d97565348660a0f630f30a5624b"
+  integrity sha512-kEdYsjrfyPObkqUIdkz24l7mf+E2nzjz3zwjeoawFy/2V3K9aUVVxHKrc3fvsAzrGPuzvdG3+u1ctJKlZavikQ==
   dependencies:
     ajv "^6.10.0"
     class-transformer "^0.2.0"
