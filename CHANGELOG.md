@@ -1,3 +1,8 @@
+# Version 0.3.1 - 2019/05/27
+
+- Update dependencies, including Buttplug 0.11.6
+- Remove simulator support completely, will now build into intiface
+
 # Version 0.3.0 - 2019/03/16
 
 - Update dependencies, including Buttplug to 0.11.0
