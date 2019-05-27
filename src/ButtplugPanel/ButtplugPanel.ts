@@ -1,8 +1,8 @@
-import { ButtplugClient, ButtplugMessage, ButtplugDeviceMessage, ButtplugClientDevice,
+import { ButtplugClient, ButtplugDeviceMessage, ButtplugClientDevice,
          Log, StopDeviceCmd, Error as ErrorMsg, ButtplugEmbeddedClientConnector,
          ButtplugBrowserWebsocketClientConnector } from "buttplug";
 import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { ButtplugMessageBus } from "../ButtplugMessageBus";
 import ButtplugConnectionManagerComponent from "../ButtplugConnectionManager/ButtplugConnectionManager.vue";
 import ButtplugStartConnectEvent from "../ButtplugConnectionManager/ButtplugStartConnectEvent";
@@ -22,7 +22,6 @@ export class ButtplugPanelType extends Vue {
   private selectedDevices: number[] = [];
   private buttplugClient: ButtplugClient | null = null;
   private lastErrorMessage: string | null = null;
-  private isSimulator: boolean = false;
 
   public mounted() {
     ButtplugMessageBus.$on("devicemessage", this.SendDeviceMessage);
@@ -95,24 +94,7 @@ export class ButtplugPanelType extends Vue {
     this.$emit("connected");
   }
 
-  // public async ConnectSimulator() {
-  //   this.clearError();
-  //   const buttplugClient = await CreateDevToolsClient();
-  //   // DevToolsClient connects in the creation function, don't reconnect.
-  //   await this.InitializeClient(buttplugClient);
-  //   this.buttplugClient = buttplugClient;
-  //   this.isSimulator = true;
-  //   this.$emit("connected");
-  // }
-
-  // public ShowSimulatorPanel() {
-  //   if (!this.buttplugClient || !this.buttplugClient.Connector) {
-  //     return;
-  //   }
-  //   CreateDeviceManagerPanel((this.buttplugClient.Connector as ButtplugEmbeddedServerConnector).Server!);
-  // }
-
-  public async Disconnect() {
+ public async Disconnect() {
     this.clearError();
     // There's a bug in uglify that will strip parens incorrectly if this is
     // compressed into the following for statement. This set does nothing and
@@ -136,8 +118,6 @@ export class ButtplugPanelType extends Vue {
     }
     this.buttplugClient = null;
 
-    // Simulator cleanup
-    this.isSimulator = false;
     // RemoveDeviceManagerPanel();
     this.$emit("disconnected");
   }

@@ -26,10 +26,6 @@
       :disabled="!this.HasBluetooth"
       @click="ConnectLocal">Connect Local</v-btn>
     <v-btn
-      v-if="!isConnected"
-      id="ConnectSimulatorButton"
-      @click="ConnectSimulator">Connect Simulator</v-btn>
-    <v-btn
       v-if="isConnected"
       id="DisconnectButton"
       @click="Disconnect">Disconnect</v-btn>

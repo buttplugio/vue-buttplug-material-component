@@ -39,10 +39,6 @@ export default class ButtplugConnectionManager extends Vue {
                                 clientName: this.clientName});
   }
 
-  private ConnectSimulator() {
-    this.$emit("connectsimulator");
-  }
-
   private Disconnect() {
     this.$emit("disconnect");
   }

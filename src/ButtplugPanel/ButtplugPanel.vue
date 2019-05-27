@@ -5,7 +5,6 @@
       :isConnected="IsConnected"
       @connectwebsocket="ConnectWebsocket"
       @connectlocal="ConnectLocal"
-      @connectsimulator="ConnectSimulator"
       @disconnect="Disconnect"/>
     <v-layout column v-show="lastErrorMessage">
       <v-flex>
@@ -20,12 +19,10 @@
       :devices="devices"
       :isConnected="IsConnected"
       :isServerScanning="IsServerScanning"
-      :isSimulator="isSimulator"
       @deviceSelected="OnDeviceSelected"
       @deviceUnselected="OnDeviceUnselected"
       @startScanning="StartScanning"
-      @stopScanning="StopScanning"
-      @showSimulator="ShowSimulatorPanel" />
+      @stopScanning="StopScanning" />
     <buttplug-log-manager-component
       v-show="IsConnected"
       :isConnected="IsConnected"
