@@ -1,27 +1,20 @@
 {
   "compilerOptions" : {
-    "lib": ["es5", "ES2015", "ES2015.promise", "dom", "es6"],
+    "baseUrl": "./src",
+    "lib": ["es2015", "dom", "es6"],
     "target": "es6",
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "strict": true,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
-    "outDir": "./dist/ts",
     "declaration": true,
-    "declarationDir": "./dist/types",
-    "importHelpers": true
+    "outDir": "./dist/"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.vue",
-    "tests/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+    "./src/*.ts",
+    "./src/**/*.ts",
   ]
 }
