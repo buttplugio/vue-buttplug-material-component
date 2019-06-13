@@ -3,16 +3,16 @@
     <div v-if="!client.Connected">
       <v-btn
         color="red lighten-2"
-        dark
         @click="ConnectToIntifaceDesktop"
+        class="white--text"
       >
         Connect To Intiface Desktop
       </v-btn>
       <v-btn
         color="red lighten-2"
-        dark
         @click="ConnectInBrowser"
         :disabled="!HasWebBluetooth"
+        class="white--text"
       >
         {{ HasWebBluetooth ? "Connect In Browser" : "Requires WebBluetooth" }}
       </v-btn>
