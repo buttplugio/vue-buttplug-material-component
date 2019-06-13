@@ -1,3 +1,11 @@
+# Version 1.0.0 - 2019/06/10
+
+- Rebuild component from the ground up, using vue-cli
+- Now brings in ButtplugClient as a prop, does not actually own object
+- Embeddable in dialog, nav bar, or otherwise
+- Can try connecting to many addresses at one, first one to connect wins race
+- Can start scanning on connect, saves a click
+
 # Version 0.3.1 - 2019/05/27
 
 - Update dependencies, including Buttplug 0.11.6
