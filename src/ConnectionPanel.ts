@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Component, Prop, Model } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import { ButtplugClient, IButtplugClientConnector, ButtplugBrowserWebsocketClientConnector,
   ButtplugEmbeddedClientConnector,
   ButtplugClientDevice} from "buttplug";
@@ -30,6 +30,7 @@ class ConnectionAddress {
 export default class ConnectionPanel extends Vue {
   @Prop()
   private client: ButtplugClient;
+  private isScanning: boolean = false;
   // 30 second scanning limit
   private scanTime: number = 30000;
   private scanOnConnect: boolean = true;
@@ -100,11 +101,13 @@ export default class ConnectionPanel extends Vue {
     await this.client.StartScanning();
     setTimeout(async () => await this.StopScanning(), this.scanTime);
     console.log("Starting scanning");
+    this.isScanning = true;
   }
 
   private async StopScanning() {
     await this.client.StopScanning();
     console.log("Stopping scanning");
+    this.isScanning = false;
   }
 
   private OnScanningFinished() {
@@ -112,6 +115,11 @@ export default class ConnectionPanel extends Vue {
   }
 
   private async ToggleScanning() {
+    if (this.isScanning) {
+      await this.StopScanning();
+      return;
+    }
+    await this.StartScanning();
   }
 
   private async Disconnect() {
@@ -119,7 +127,7 @@ export default class ConnectionPanel extends Vue {
   }
 
   private RemoveAddress(index: number) {
-    this.desktopAddresses = this.desktopAddresses.filter((x) => x.Id != index);
+    this.desktopAddresses = this.desktopAddresses.filter((x) => x.Id !== index);
   }
 
   private AddAddress() {

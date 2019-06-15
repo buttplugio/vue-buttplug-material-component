@@ -92,11 +92,12 @@
         dark
         @click="ToggleScanning"
       >
-        Start Scanning
+        {{ isScanning ? "Stop Scanning" : "Start Scanning" }}
       </v-btn>
       <v-subheader>
         Device List
       </v-subheader>
+      <div v-if="clientDevices.length === 0">No Devices Available</div>
       <v-checkbox
         v-for="device in clientDevices"
         :key="device.Index"
