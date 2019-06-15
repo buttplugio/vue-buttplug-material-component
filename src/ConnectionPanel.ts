@@ -42,8 +42,6 @@ export default class ConnectionPanel extends Vue {
 
   public async ConnectToIntifaceDesktop() {
     const connectPromises: Array<Promise<boolean>> = [];
-    this.client.addListener("deviceadded", this.OnDeviceListChanged);
-    this.client.addListener("deviceremoved", this.OnDeviceListChanged);
     for (const address of this.desktopAddresses) {
       const baseUrl = `${address.Host}:${address.Port}`;
       const urls: string[] = [];
@@ -84,6 +82,9 @@ export default class ConnectionPanel extends Vue {
   }
 
   private async Connect(aConnector: IButtplugClientConnector): Promise<void> {
+    this.client.addListener("deviceadded", this.OnDeviceListChanged);
+    this.client.addListener("deviceremoved", this.OnDeviceListChanged);
+    this.client.addListener("scanningfinished", this.OnScanningFinished);
     await this.client.Connect(aConnector);
     // If we don't connect successfully, the above line will throw. Assume that
     // we're connected if we get this far.
@@ -104,6 +105,10 @@ export default class ConnectionPanel extends Vue {
   private async StopScanning() {
     await this.client.StopScanning();
     console.log("Stopping scanning");
+  }
+
+  private OnScanningFinished() {
+    this.isScanning = false;
   }
 
   private async ToggleScanning() {
