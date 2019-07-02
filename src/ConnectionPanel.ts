@@ -86,11 +86,28 @@ export default class ConnectionPanel extends Vue {
     this.client.addListener("deviceadded", this.OnDeviceListChanged);
     this.client.addListener("deviceremoved", this.OnDeviceListChanged);
     this.client.addListener("scanningfinished", this.OnScanningFinished);
-    await this.client.Connect(aConnector);
+    this.client.addListener("disconnect", this.RemoveListeners);
+    try {
+      await this.client.Connect(aConnector);
+    } catch (e) {
+      this.RemoveListeners();
+      throw e;
+    }
     // If we don't connect successfully, the above line will throw. Assume that
     // we're connected if we get this far.
     this.clientDevices = this.client.Devices;
     await this.StartScanning();
+  }
+
+  private RemoveListeners() {
+    console.log("Removing listeners");
+    this.client.removeListener("deviceremoveed", this.OnDeviceListChanged);
+    this.client.removeListener("deviceremoved", this.OnDeviceListChanged);
+    this.client.removeListener("scanningfinished", this.OnScanningFinished);
+    this.client.removeListener("disconnect", this.RemoveListeners);
+    console.log("Cleaning arrays");
+    this.clientDevices = [];
+    this.selectedDevices = [];
   }
 
   private get Connected() {
@@ -100,13 +117,11 @@ export default class ConnectionPanel extends Vue {
   private async StartScanning() {
     await this.client.StartScanning();
     setTimeout(async () => await this.StopScanning(), this.scanTime);
-    console.log("Starting scanning");
     this.isScanning = true;
   }
 
   private async StopScanning() {
     await this.client.StopScanning();
-    console.log("Stopping scanning");
     this.isScanning = false;
   }
 
@@ -124,6 +139,7 @@ export default class ConnectionPanel extends Vue {
 
   private async Disconnect() {
     await this.client.Disconnect();
+    this.RemoveListeners();
   }
 
   private RemoveAddress(index: number) {
