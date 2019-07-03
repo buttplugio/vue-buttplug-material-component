@@ -1,8 +1,8 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { ButtplugClient, IButtplugClientConnector, ButtplugBrowserWebsocketClientConnector,
-  ButtplugEmbeddedClientConnector,
-  ButtplugClientDevice} from "buttplug";
+         ButtplugEmbeddedClientConnector,
+         ButtplugClientDevice} from "buttplug";
 
 class ConnectionAddress {
   private static sIdNumber: number = 0;
@@ -27,14 +27,14 @@ class ConnectionAddress {
 }
 
 @Component({})
-export default class ConnectionPanel extends Vue {
+export default class ButtplugPanel extends Vue {
   @Prop()
   private client: ButtplugClient;
   private isScanning: boolean = false;
   // 30 second scanning limit
   private scanTime: number = 30000;
   private scanOnConnect: boolean = true;
-  private selectedDevices: ButtplugClientDevice[] = [];
+  private selectedDevices: number[] = [];
   // Blank array when disconnected. Mirrors ButtplugClient device array
   // otherwise. Takes some extra logic to get vue to keep up with it.
   private clientDevices: ButtplugClientDevice[] = [];
@@ -66,11 +66,11 @@ export default class ConnectionPanel extends Vue {
 
   private get HasWebBluetooth(): boolean {
     console.log(typeof(window) !== "undefined" &&
-           typeof(window.navigator) !== "undefined" &&
+                typeof(window.navigator) !== "undefined" &&
                 (navigator as any).bluetooth !== undefined);
     return typeof(window) !== "undefined" &&
-           typeof(window.navigator) !== "undefined" &&
-           (navigator as any).bluetooth !== undefined;
+      typeof(window.navigator) !== "undefined" &&
+      (navigator as any).bluetooth !== undefined;
   }
 
   private OnDeviceListChanged(aDevice: ButtplugClientDevice) {
@@ -100,12 +100,10 @@ export default class ConnectionPanel extends Vue {
   }
 
   private RemoveListeners() {
-    console.log("Removing listeners");
     this.client.removeListener("deviceremoveed", this.OnDeviceListChanged);
     this.client.removeListener("deviceremoved", this.OnDeviceListChanged);
     this.client.removeListener("scanningfinished", this.OnScanningFinished);
     this.client.removeListener("disconnect", this.RemoveListeners);
-    console.log("Cleaning arrays");
     this.clientDevices = [];
     this.selectedDevices = [];
   }
@@ -151,7 +149,13 @@ export default class ConnectionPanel extends Vue {
   }
 
   private ResetAddresses() {
-   this.desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
-                            new ConnectionAddress("localhost", 12346, true, true)];
- }
+    this.desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
+                             new ConnectionAddress("localhost", 12346, true, true)];
+  }
+
+  private FireChange() {
+    const devices = this.clientDevices.filter((x: ButtplugClientDevice) =>
+                                              this.selectedDevices.indexOf(x.Index) !== -1);
+    this.$emit("selecteddeviceschange", devices);
+  }
 }

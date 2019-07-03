@@ -32,9 +32,9 @@
         </v-tab>
         <v-tab-item>
           <v-card class="tab-card">
-            <connection-panel
+            <buttplug-panel
               :client="client">
-            </connection-panel>
+            </buttplug-panel>
           </v-card>
         </v-tab-item>
         <slot name="post"></slot>

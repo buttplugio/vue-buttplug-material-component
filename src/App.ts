@@ -1,11 +1,11 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import ConnectionPanel from "./ConnectionPanel";
+import ButtplugPanel from "./ButtplugPanel";
 import { ButtplugClient } from "buttplug";
 
 @Component({
   components: {
-    ConnectionPanel,
+    ButtplugPanel,
   },
 })
 export default class App extends Vue {
