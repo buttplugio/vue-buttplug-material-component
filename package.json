@@ -1,10 +1,16 @@
 {
   "name": "vue-buttplug-material-component",
   "version": "1.0.0",
-  "private": true,
+  "main": "dist/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:vue-cli": "vue-cli-service build",
+    "build:vue-cli:lib": "vue-cli-service build --target lib --name vue-buttplug-material-component src/ButtplugPanel.vue",
+    "build:main": "tsc -p tsconfig.json",
+    "build:dev": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.base.js",
+    "build:webpack": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.production.js",
+    "build:analyze": "webpack --hide-modules --config=build/webpack.analyzer.js",
+    "build:example:dev": "yarn build:main && webpack --progress --hide-modules --config=build/webpack.example.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
