@@ -100,15 +100,16 @@
       <div v-if="clientDevices.length === 0">No Devices Available</div>
       <v-checkbox
         v-for="device in clientDevices"
+        v-model="selectedDevices"
+        @change="FireChange"
         :key="device.Index"
         :value="device.Index"
-        v-model="selectedDevices"
         :label="device.Name"></v-checkbox>
     </div>
   </v-container>
 </template>
 
-<script lang="ts" src="./ConnectionPanel.ts">
+<script lang="ts" src="./ButtplugPanel.ts">
 </script>
 
 <style lang="css">
