@@ -16,6 +16,19 @@
       >
         {{ HasWebBluetooth ? "Connect In Browser" : "Requires WebBluetooth" }}
       </v-btn>
+      <v-card elevation="3" class="message-card" v-if="uiMessage">
+        <v-layout row>
+          <v-flex shrink>
+            <v-btn icon @click="CloseUiMessage">
+              <v-icon>close</v-icon>
+            </v-btn>
+          </v-flex>
+          <v-flex class="message-flex">
+            <span class="error-text" v-if="uiMessage[0] === 0">Error:</span>
+            {{ uiMessage[1] }}
+          </v-flex>
+        </v-layout>
+      </v-card>
       <v-expansion-panel>
         <v-expansion-panel-content>
           <template v-slot:header>
@@ -130,5 +143,19 @@
 
  .address-line-incorrect {
    background: #ffeeee;
+ }
+
+ .message-card {
+   padding: 10px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+ }
+
+ .error-text {
+   color: #F00;
+ }
+
+ .message-flex {
+   padding: 5px;
  }
 </style>
