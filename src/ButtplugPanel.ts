@@ -46,7 +46,7 @@ export default class ButtplugPanel extends Vue {
   private clientDevices: ButtplugClientDevice[] = [];
   private desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
                               new ConnectionAddress("localhost", 12346, true, true)];
-  private uiMessage: [UiMessageType, string] | undefined = [UiMessageType.Error, "Something went wrong"];
+  private uiMessage: [UiMessageType, string] | null = null;
 
   public async ConnectToIntifaceDesktop() {
     const connectPromises: Array<Promise<boolean>> = [];
@@ -174,6 +174,6 @@ export default class ButtplugPanel extends Vue {
   }
 
   private CloseUiMessage() {
-    this.uiMessage = undefined;
+    this.uiMessage = null;
   }
 }
