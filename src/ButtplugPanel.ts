@@ -26,8 +26,14 @@ class ConnectionAddress {
   }
 }
 
+enum UiMessageType {
+  Error,
+  Status,
+}
+
 @Component({})
 export default class ButtplugPanel extends Vue {
+
   @Prop()
   private client: ButtplugClient;
   private isScanning: boolean = false;
@@ -40,6 +46,7 @@ export default class ButtplugPanel extends Vue {
   private clientDevices: ButtplugClientDevice[] = [];
   private desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
                               new ConnectionAddress("localhost", 12346, true, true)];
+  private uiMessage: [UiMessageType, string] | undefined = [UiMessageType.Error, "Something went wrong"];
 
   public async ConnectToIntifaceDesktop() {
     const connectPromises: Array<Promise<boolean>> = [];
@@ -59,15 +66,20 @@ export default class ButtplugPanel extends Vue {
     }
     const connectReturns = await Promise.all(connectPromises);
     if (connectReturns.indexOf(true) === -1) {
-      console.log("No valid connection!");
+      this.SetErrorMessage("Cannot connect to Intiface Desktop. Is the application up, and is the server running?");
       return;
     }
   }
 
+  private SetErrorMessage(aMsg: string) {
+    this.uiMessage = [UiMessageType.Error, aMsg];
+  }
+
+  private SetStatusMessage(aMsg: string) {
+    this.uiMessage = [UiMessageType.Status, aMsg];
+  }
+
   private get HasWebBluetooth(): boolean {
-    console.log(typeof(window) !== "undefined" &&
-                typeof(window.navigator) !== "undefined" &&
-                (navigator as any).bluetooth !== undefined);
     return typeof(window) !== "undefined" &&
       typeof(window.navigator) !== "undefined" &&
       (navigator as any).bluetooth !== undefined;
@@ -138,6 +150,8 @@ export default class ButtplugPanel extends Vue {
   private async Disconnect() {
     await this.client.Disconnect();
     this.RemoveListeners();
+    this.SetStatusMessage("Client disconnected.");
+
   }
 
   private RemoveAddress(index: number) {
@@ -157,5 +171,9 @@ export default class ButtplugPanel extends Vue {
     const devices = this.clientDevices.filter((x: ButtplugClientDevice) =>
                                               this.selectedDevices.indexOf(x.Index) !== -1);
     this.$emit("selecteddeviceschange", devices);
+  }
+
+  private CloseUiMessage() {
+    this.uiMessage = undefined;
   }
 }
