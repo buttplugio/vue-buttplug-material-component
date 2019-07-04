@@ -24,7 +24,7 @@
             </v-btn>
           </v-flex>
           <v-flex class="message-flex">
-            <span class="error-text" v-if="uiMessage[0] === 0">Error:</span>
+            <span class="error-text" v-if="uiMessage && uiMessage[0] === 0">Error:</span>
             {{ uiMessage[1] }}
           </v-flex>
         </v-layout>
