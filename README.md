@@ -17,7 +17,6 @@ features like:
 - Connecting to Websocket and Local (In-Browser) servers
 - Device listing and management
 - Log display
-- Buttplug crash/exception handling
 
 ## Table Of Contents
 
