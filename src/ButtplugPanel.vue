@@ -52,6 +52,7 @@
                 <v-text-field
                   label="Host"
                   v-model="address.Host"
+                  @change="StoreAddressCookie()"
                 ></v-text-field>
               </v-flex>
               <v-flex class="address-entry">
@@ -59,17 +60,20 @@
                   label="Port"
                   mask="#####"
                   v-model="address.Port"
+                  @change="StoreAddressCookie()"
                 ></v-text-field>
               </v-flex>
               <v-flex>
                 <v-checkbox
                   v-model="address.Insecure"
+                  @change="StoreAddressCookie()"
                   label="Insecure">
                 </v-checkbox>
               </v-flex>
               <v-flex>
                 <v-checkbox
                   v-model="address.Secure"
+                  @change="StoreAddressCookie()"
                   label="Secure">
                 </v-checkbox>
               </v-flex>
