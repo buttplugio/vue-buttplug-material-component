@@ -20,6 +20,7 @@
   "dependencies": {
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
+    "vue-cookies": "^1.5.13",
     "vue-property-decorator": "^8.1.1",
     "vuetify": "^1.5.14"
   },

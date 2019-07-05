@@ -3,8 +3,13 @@ import { Component, Prop } from "vue-property-decorator";
 import { ButtplugClient, IButtplugClientConnector, ButtplugBrowserWebsocketClientConnector,
          ButtplugEmbeddedClientConnector,
          ButtplugClientDevice} from "buttplug";
+Vue.use(require("vue-cookies"));
 
 class ConnectionAddress {
+  public static FromObject(aObj: any): ConnectionAddress {
+    return new ConnectionAddress(aObj.Host, aObj.Port, aObj.Insecure, aObj.Secure);
+  }
+
   private static sIdNumber: number = 0;
   public Id: number;
 
@@ -14,6 +19,15 @@ class ConnectionAddress {
                      public Secure: boolean) {
     this.Id = ConnectionAddress.sIdNumber;
     ConnectionAddress.sIdNumber += 1;
+  }
+
+  public AsObject(): object {
+    return {
+      Host: this.Host,
+      Port: this.Port,
+      Insecure: this.Insecure,
+      Secure: this.Secure,
+    };
   }
 
   public get IsValidURL(): boolean {
@@ -47,6 +61,23 @@ export default class ButtplugPanel extends Vue {
   private desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
                               new ConnectionAddress("localhost", 12346, true, true)];
   private uiMessage: [UiMessageType, string] | null = null;
+  private cookies: any = (window as any).$cookies;
+
+  public mounted() {
+    this.cookies.config("999d");
+    try {
+      const addresses = JSON.parse(this.cookies.get("intiface-addresses"));
+      if (addresses && Array.isArray(addresses) && addresses.length > 0) {
+        this.RetrieveAddressCookie(addresses);
+      } else {
+        console.log("Don't have an addresses!");
+        this.StoreAddressCookie();
+      }
+    } catch {
+      console.log("Can't load cookie!");
+      this.StoreAddressCookie();
+    }
+  }
 
   public async ConnectToIntifaceDesktop() {
     const connectPromises: Array<Promise<boolean>> = [];
@@ -68,6 +99,21 @@ export default class ButtplugPanel extends Vue {
     if (connectReturns.indexOf(true) === -1) {
       this.SetErrorMessage("Cannot connect to Intiface Desktop. Is the application up, and is the server running?");
       return;
+    }
+  }
+
+  private StoreAddressCookie() {
+    const addrs: object[] = [];
+    for (const addr of this.desktopAddresses) {
+      addrs.push(addr.AsObject());
+    }
+    this.cookies.set("intiface-addresses", JSON.stringify(addrs));
+  }
+
+  private RetrieveAddressCookie(aAddrs: object[]) {
+    this.desktopAddresses = [];
+    for (const addr of aAddrs) {
+      this.desktopAddresses.push(ConnectionAddress.FromObject(addr));
     }
   }
 
@@ -156,15 +202,18 @@ export default class ButtplugPanel extends Vue {
 
   private RemoveAddress(index: number) {
     this.desktopAddresses = this.desktopAddresses.filter((x) => x.Id !== index);
+    this.StoreAddressCookie();
   }
 
   private AddAddress() {
     this.desktopAddresses.push(new ConnectionAddress("", 0, true, true));
+    this.StoreAddressCookie();
   }
 
   private ResetAddresses() {
     this.desktopAddresses = [new ConnectionAddress("localhost", 12345, true, true),
                              new ConnectionAddress("localhost", 12346, true, true)];
+    this.StoreAddressCookie();
   }
 
   private FireChange() {
