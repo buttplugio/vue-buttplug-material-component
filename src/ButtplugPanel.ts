@@ -177,6 +177,11 @@ export default class ButtplugPanel extends Vue {
   }
 
   private async StopScanning() {
+    // The setTimeout to call this may fire after disconnect. If so, just drop
+    // it.
+    if (!this.client.Connected) {
+      return;
+    }
     await this.client.StopScanning();
     this.isScanning = false;
   }
