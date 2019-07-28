@@ -2,7 +2,8 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { ButtplugClient, IButtplugClientConnector, ButtplugBrowserWebsocketClientConnector,
          ButtplugEmbeddedClientConnector,
-         ButtplugClientDevice} from "buttplug";
+  ButtplugClientDevice,
+  DeviceConfigurationManager} from "buttplug";
 Vue.use(require("vue-cookies"));
 
 class ConnectionAddress {
@@ -70,13 +71,19 @@ export default class ButtplugPanel extends Vue {
       if (addresses && Array.isArray(addresses) && addresses.length > 0) {
         this.RetrieveAddressCookie(addresses);
       } else {
-        console.log("Don't have an addresses!");
+        console.log("Don't have config addresses available in cookie!");
         this.StoreAddressCookie();
       }
     } catch {
       console.log("Can't load cookie!");
       this.StoreAddressCookie();
     }
+
+    DeviceConfigurationManager.LoadFromWebConfig().then(() => {
+      console.log("Config loaded from web");
+    }).catch((e) => {
+      console.log(`Config not loaded from web: ${e}`);
+    });
   }
 
   public async ConnectToIntifaceDesktop() {
