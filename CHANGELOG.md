@@ -1,3 +1,8 @@
+# Version 1.0.1 - 2019/07/27
+
+- Update to buttplug-js 0.12.0
+- Try loading device config from web CDN by default
+
 # Version 1.0.0 - 2019/06/10
 
 - Rebuild component from the ground up, using vue-cli
