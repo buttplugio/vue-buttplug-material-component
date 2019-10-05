@@ -2,8 +2,8 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { ButtplugClient, IButtplugClientConnector, ButtplugBrowserWebsocketClientConnector,
          ButtplugEmbeddedClientConnector,
-  ButtplugClientDevice,
-  DeviceConfigurationManager} from "buttplug";
+         ButtplugClientDevice,
+         DeviceConfigurationManager} from "buttplug";
 Vue.use(require("vue-cookies"));
 
 class ConnectionAddress {
@@ -52,6 +52,7 @@ export default class ButtplugPanel extends Vue {
   @Prop()
   private client: ButtplugClient;
   private isScanning: boolean = false;
+  private isConnecting: boolean = false;
   // 30 second scanning limit
   private scanTime: number = 30000;
   private scanOnConnect: boolean = true;
@@ -86,27 +87,36 @@ export default class ButtplugPanel extends Vue {
     });
   }
 
-  public async ConnectToIntifaceDesktop() {
-    const connectPromises: Array<Promise<boolean>> = [];
+  public async ConnectToIntifaceDesktop(): Promise<void> {
+    this.CloseUiMessage();
+    this.isConnecting = true;
+    const connectPromises: Array<Promise<void>> = [];
+    let isConnected = false;
+    const urls: string[] = [];
     for (const address of this.desktopAddresses) {
       const baseUrl = `${address.Host}:${address.Port}`;
-      const urls: string[] = [];
       if (address.Insecure) {
         urls.push(`ws://${baseUrl}`);
       }
       if (address.Secure) {
         urls.push(`wss://${baseUrl}`);
       }
-      for (const url of urls) {
-        connectPromises.push(this.Connect(new ButtplugBrowserWebsocketClientConnector(`${url}`))
-                             .then(() => Promise.resolve(true), (e) => Promise.resolve(false)));
+    }
+
+    for (const url of urls) {
+      try {
+        await this.Connect(new ButtplugBrowserWebsocketClientConnector(`${url}`));
+        isConnected = true;
+        break;
+      } catch (e) {
+        continue;
       }
     }
-    const connectReturns = await Promise.all(connectPromises);
-    if (connectReturns.indexOf(true) === -1) {
+
+    if (!isConnected) {
       this.SetErrorMessage("Cannot connect to Intiface Desktop. Is the application up, and is the server running?");
-      return;
     }
+    this.isConnecting = false;
   }
 
   private StoreAddressCookie() {
@@ -153,10 +163,10 @@ export default class ButtplugPanel extends Vue {
     this.client.addListener("scanningfinished", this.OnScanningFinished);
     this.client.addListener("disconnect", this.RemoveListeners);
     try {
-      await this.client.Connect(aConnector);
+      await this.client.Connect(aConnector).catch((e) => {});
     } catch (e) {
       this.RemoveListeners();
-      throw e;
+      return Promise.reject("test");
     }
     // If we don't connect successfully, the above line will throw. Assume that
     // we're connected if we get this far.

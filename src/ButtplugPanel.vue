@@ -5,6 +5,7 @@
         color="red lighten-2"
         @click="ConnectToIntifaceDesktop"
         class="white--text"
+        :disabled="isConnecting"
       >
         Connect To Intiface Desktop
       </v-btn>
@@ -29,7 +30,17 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-expansion-panel>
+      <v-card v-if="isConnecting">
+        <v-layout row>
+          <v-flex shrink>
+            <v-progress-circular
+              indeterminate
+              color="purple"
+            ></v-progress-circular><span>Trying to connect to Intiface Desktop...</span>
+          </v-flex>
+        </v-layout>
+      </v-card>
+      <v-expansion-panel v-if="!isConnecting">
         <v-expansion-panel-content>
           <template v-slot:header>
             Advanced Settings
