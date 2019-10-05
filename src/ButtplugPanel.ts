@@ -163,7 +163,7 @@ export default class ButtplugPanel extends Vue {
     this.client.addListener("scanningfinished", this.OnScanningFinished);
     this.client.addListener("disconnect", this.RemoveListeners);
     try {
-      await this.client.Connect(aConnector).catch((e) => {});
+      await this.client.Connect(aConnector).catch((e) => { return; });
     } catch (e) {
       this.RemoveListeners();
       return Promise.reject("test");
