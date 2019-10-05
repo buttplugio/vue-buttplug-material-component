@@ -1,3 +1,8 @@
+# Version 1.0.2 - 2019/10/05
+
+- Update to buttplug-js 0.12.1 (Motorbunny support)
+- Fix bug with intiface desktop websocket loading
+
 # Version 1.0.1 - 2019/07/27
 
 - Update to buttplug-js 0.12.0
