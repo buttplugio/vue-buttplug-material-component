@@ -1,6 +1,6 @@
 {
   "name": "vue-buttplug-material-component",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,7 +15,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "peerDependencies": {
-    "buttplug": ">=0.12.0",
+    "buttplug": ">=0.12.1",
     "vue": "^2.6.10",
     "vuetify": "^1.5.16"
   },
