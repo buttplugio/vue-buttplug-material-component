@@ -1,3 +1,7 @@
+# Version 1.0.3 - 2020/08/25
+
+- Update to buttplug-js 0.13.2 (Android workaround)
+
 # Version 1.0.2 - 2019/10/05
 
 - Update to buttplug-js 0.12.1 (Motorbunny support)
