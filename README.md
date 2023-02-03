@@ -1,12 +1,19 @@
-# Vue.js Buttplug Component
+# Vue.js Buttplug Component - DEPRECATED
 
 [![npm](https://img.shields.io/npm/v/vue-buttplug-material-component.svg)](https://npmjs.com/package/vue-buttplug-material-component)
 [![Build Status](https://travis-ci.org/buttplugio/vue-buttplug-material-component.svg?branch=master)](https://travis-ci.org/buttplugio/vue-buttplug-material-component)
 
 [![Patreon donate button](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/qdot)
-[![Discourse Forum](https://img.shields.io/badge/discourse-forum-blue.svg)](https://metafetish.club)
+[![Discourse Forum](https://img.shields.io/badge/discourse-forum-blue.svg)](https://discuss.buttplug.io)
 [![Discord](https://img.shields.io/discord/353303527587708932.svg?logo=discord)](https://discord.buttplug.io)
 [![Twitter](https://img.shields.io/twitter/follow/buttplugio.svg?style=social&logo=twitter)](https://twitter.com/buttplugio)
+
+THIS PROJECT IS DEPRECATED.
+
+I haven't touched it in 2 years and I think I'm pretty much done with using Vue, so this will no
+longer be seeing updates. The repo is left here for archival purposes.
+
+## Old Introduction
 
 Vue.js 2.x Component for managing Buttplug Clients and Servers.
 
